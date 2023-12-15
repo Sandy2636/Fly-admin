@@ -162,7 +162,7 @@ function HomeLayout(props) {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                   <InboxIcon /> 
                 </ListItemIcon>
                 <ListItemText primary={arr[0]} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
