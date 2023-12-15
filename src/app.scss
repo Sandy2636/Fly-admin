@@ -1,0 +1,22 @@
+@mixin mobile {
+    @media (max-width: 600px) {
+      @content;
+    }
+  }
+
+    
+  @mixin sm {
+    @media (max-width: 300px) {
+      @content;
+    }
+  }
+
+  
+body{
+    background-color: #21222C !important;
+    font-family: 'Poppins' !important;
+    color: #fff
+    }
+    .css-1f4hnf{
+      width: 95vw;
+    }

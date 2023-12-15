@@ -9,17 +9,14 @@ function AppRoutes() {
   return (
     <div>
       <Routes>
+        <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
         <Route
-          path="/"
-          element={<HomeLayout child={<Dashboard/>} />}
+          path="/live-matches"
+          element={<HomeLayout child={<LiveMatches />} />}
         ></Route>
         <Route
-          path="/liveMatches"
-          element={<HomeLayout child={<LiveMatches/>} />}
-        ></Route>
-         <Route
-          path="/casinoReport"
-          element={<HomeLayout child={<CasinoReport/>} />}
+          path="/casino-report"
+          element={<HomeLayout child={<CasinoReport />} />}
         ></Route>
       </Routes>
     </div>
