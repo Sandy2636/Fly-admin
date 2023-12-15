@@ -18,6 +18,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import Dashboard from "../../Pages/Dashboard/Dashboard";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -86,10 +88,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-function HomeLayout({ child }) {
+function HomeLayout(props) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -97,7 +99,9 @@ function HomeLayout({ child }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const handleListItemClick = (path)=>{
+      navigate(path);
+  }
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -131,8 +135,19 @@ function HomeLayout({ child }) {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {[
+  ["Dashboard", "/"],
+  ["Manage", "/manage"],
+  ["Live Matches", "/liveMatches"],
+  ["Completed Matches", "/completedMatches"],
+  ["Casino Profit Loss", "/casinoReport"],
+  ["Blok Market", "/blokMarket"],
+  ["Manage Clients", "/manageClients"],
+  ["Manage Password", "/managePassword"],
+  ["Manage ledgers", "/manageLedgers"],
+]
+.map((arr, index) => (
+            <ListItem key={arr[0]} onClick={()=>{handleListItemClick(arr[1])}} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -149,32 +164,7 @@ function HomeLayout({ child }) {
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={arr[0]} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -184,7 +174,7 @@ function HomeLayout({ child }) {
         component="main"
         sx={{ position: "absolute", left: "45px", top: "0", flexGrow: 1, p: 3 }}
       >
-        {child}
+       {props.child}
       </Box>
     </Box>
   );

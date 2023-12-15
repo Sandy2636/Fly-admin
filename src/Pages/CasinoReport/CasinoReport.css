@@ -1,0 +1,5 @@
+.react-datepicker__input-container>input{
+    color: rgb(255, 255, 255) !important;
+    background-color: unset !important;
+    border: unset;
+}
