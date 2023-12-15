@@ -1,22 +1,23 @@
 import React,{useState} from 'react'
-import "./LiveMatches.css"
+import "./BlockSport.css"
 import { useNavigate, useParams } from "react-router-dom";
-export default function LiveMatches() {
-        const params = useParams();
-        const navigate = useNavigate();
-        const [matches, setmatches] = useState(["a", "b"]);
+
+export default function BlockSport() {
+    const params = useParams();
+    const navigate = useNavigate();
+    const [matches, setmatches] = useState(["a", "b"]);
   return (
     <div>
+        <h5 style={{color:"white"}}>List</h5>
          <div style={{ overflow: "scroll" }}>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">PID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Sport</th>
-              <th scope="col">Date</th>
-              <th scope="col">Profit/Loss</th>
+              <th scope="col">So.</th>
+              <th scope="col">BetfairId</th>
+              <th scope="col">Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -24,8 +25,7 @@ export default function LiveMatches() {
               return (
                 <tr>
                   <th scope="row">05 Dec 23</th>
-                  <td>00</td>
-                  <td>00</td>
+                  <td onClick={() => navigate("/ledger/" + item)}>Mark</td>
                   <td>00</td>
                   <td>00</td>
                   <td>00</td>

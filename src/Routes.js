@@ -4,6 +4,9 @@ import HomeLayout from "./Layout/Homelayout/HomeLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import LiveMatches from "./Pages/LiveMatches/LiveMatches";
 import CasinoReport from "./Pages/CasinoReport/CasinoReport";
+import BlockSport from "./Pages/BlockMarket/BlockSport";
+import ManagePassword from "./Pages/ManagePassword/ManagePassword";
+import CollectionReport from "./Pages/ManageLedgers/CollectionReport/CollectionReport";
 
 function AppRoutes() {
   return (
@@ -17,6 +20,18 @@ function AppRoutes() {
         <Route
           path="/casino-report"
           element={<HomeLayout child={<CasinoReport />} />}
+        ></Route>
+         <Route
+          path="/blockSports"
+          element={<HomeLayout child={<BlockSport/>} />}
+        ></Route>
+        <Route
+          path="/managePassword"
+          element={<HomeLayout child={<ManagePassword/>} />}
+        ></Route>
+        <Route
+          path="/collectionReport"
+          element={<HomeLayout child={<CollectionReport/>} />}
         ></Route>
       </Routes>
     </div>
