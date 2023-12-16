@@ -40,7 +40,7 @@ function HomeLayout(props) {
         </div>
       </SwipeableDrawer>
 
-      <div style={{ flex: "5", padding: "2vh 16px" }}>
+      <div style={{ flex: "5", padding: "2vh 16px", maxWidth: "100vw" }}>
         <div className="navbar">
           <div>
             <div

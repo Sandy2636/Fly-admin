@@ -1,19 +1,35 @@
 import React from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
+import "./bread_crumb.scss";
+import { capitalize } from "@mui/material";
 
 function BreadCrumbs({ heading, links }) {
   const scrumb = window.location.pathname.split("/");
+  if (heading == undefined) {
+    heading = scrumb[scrumb.length - 1]
+      .split("-")
+      .map((item) => capitalize(item))
+      .join(" ");
+    if (heading == "") {
+      heading = "Dashboard";
+    }
+  }
   return (
-    <div style={{ color: "white" }}>
-      <h3>{heading}</h3>
+    <div className="breadHolder">
+      <span>{heading}</span>
       <br />
-      <Breadcrumbs aria-label="breadcrumb">
-        {scrumb.map((item) => (
-          <Link underline="hover" color="inherit" href="/">
-            {item}
-          </Link>
-        ))}
+      <Breadcrumbs sx={{ color: "white" }} aria-label="breadcrumb">
+        {["Dashboard", ...scrumb]
+          .filter((item) => item != "")
+          .map((item) => (
+            <Link underline="hover" color="inherit" href="/">
+              {item
+                .split("-")
+                .map((item) => capitalize(item))
+                .join(" ")}
+            </Link>
+          ))}
         {/* <Typography color="text.primary">{}</Typography> */}
       </Breadcrumbs>
     </div>
