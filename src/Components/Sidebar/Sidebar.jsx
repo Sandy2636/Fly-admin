@@ -54,8 +54,8 @@ function Sidebar({ display }) {
       icon: <></>,
     },
     {
-      title: "Block Market",
-      path: "/block-market",
+      title: "Block Sports",
+      path: "/block-sports",
       icon: <></>,
     },
     {
@@ -74,7 +74,7 @@ function Sidebar({ display }) {
         },
         {
           title: "Commission & Limits",
-          path: "/clients/commission-limits",
+          path: "/clients/commission-and-limits",
           icon: <></>,
         },
       ],
@@ -82,7 +82,7 @@ function Sidebar({ display }) {
     },
     {
       title: "Manage Password",
-      path: "/managePassword",
+      path: "/manage-password",
       icon: <></>,
     },
     {
