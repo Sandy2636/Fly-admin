@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export default function CollectionReport() {
   return (
-    <div  style={{display:"flex",flexWrap:'wrap'}}>
+    <div  style={{display:"flex",flexWrap:'wrap',justifyContent:'space-around',  backgroundColor:'#2B2D3A',padding:'8px 16px'}}>
         <InfoTable />
         <InfoTable />
         <InfoTable />
@@ -18,7 +18,11 @@ const InfoTable = () => {
         borderTopLeftRadius: "10px",
         borderTopRightRadius: "10px",
         marginRight:'10px',
-        marginBottom:'10px'
+        marginBottom:'10px',
+        width:"100%",
+        // minWidth:"1rem",
+        maxWidth:'23rem'
+       
       }}
     >
       <div

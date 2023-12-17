@@ -3,7 +3,22 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../Assets/Logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import { KeyboardArrowDown } from "@mui/icons-material";
-
+import { MdSpaceDashboard } from "react-icons/md";
+import { RiAdminFill } from "react-icons/ri";
+import { MdGames } from "react-icons/md";
+import { MdDoneAll } from "react-icons/md";
+import { GiProfit } from "react-icons/gi";
+import { MdBlock } from "react-icons/md";
+import { MdManageAccounts } from "react-icons/md";
+import { FaUsers } from "react-icons/fa6";
+import { TbLockAccess } from "react-icons/tb";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { FaUserFriends } from "react-icons/fa";
+import { FaUserAltSlash } from "react-icons/fa";
+import { TbPasswordMobilePhone } from "react-icons/tb";
+import { FaLanguage } from "react-icons/fa6";
+import { RiBillFill } from "react-icons/ri";
+import { FaAddressBook } from "react-icons/fa";
 function Sidebar({ display }) {
   const navigate = useNavigate();
   const handleListItemClick = (path) => {
@@ -14,7 +29,7 @@ function Sidebar({ display }) {
     {
       title: "Dashboard",
       path: "/",
-      icon: <MenuIcon />,
+      icon: <MdSpaceDashboard />,
     },
     {
       title: "Manage",
@@ -23,40 +38,40 @@ function Sidebar({ display }) {
         {
           title: "Super Stockist",
           path: "/manage/sst",
-          icon: <></>,
+          icon: <FaUserFriends />,
         },
         {
           title: "Stockist",
           path: "/manage/stockist",
-          icon: <></>,
+          icon: <FaUserFriends />,
         },
         {
           title: "User",
           path: "/manage/user",
-          icon: <></>,
+          icon: <FaUserFriends />,
         },
       ],
-      icon: <></>,
+      icon: <RiAdminFill />,
     },
     {
       title: "Live Matches",
       path: "/live-matches",
-      icon: <></>,
+      icon: <MdGames />,
     },
     {
       title: "Completed Matches",
       path: "/completed-matches",
-      icon: <></>,
+      icon: <MdDoneAll />,
     },
     {
       title: "Casino Profit Loss",
       path: "/casino-report",
-      icon: <></>,
+      icon: <GiProfit />,
     },
     {
       title: "Block Sports",
       path: "/block-sports",
-      icon: <></>,
+      icon: <MdBlock />,
     },
     {
       title: "Manage Clients",
@@ -65,30 +80,30 @@ function Sidebar({ display }) {
         {
           title: "My Clients",
           path: "/clients/my-clients",
-          icon: <></>,
+          icon: <FaUsers />,
         },
         {
           title: "Blocked Clients",
           path: "/clients/blocked-clients",
-          icon: <></>,
+          icon: <FaUserAltSlash />,
         },
         {
           title: "Commission & Limits",
           path: "/clients/commission-and-limits",
-          icon: <></>,
+          icon: <FaMoneyBillTrendUp />,
         },
       ],
-      icon: <></>,
+      icon: <MdManageAccounts />,
     },
     {
       title: "Manage Password",
       path: "/manage-password",
-      icon: <></>,
+      icon: <TbPasswordMobilePhone />,
     },
     {
       title: "Language",
       path: "/language",
-      icon: <></>,
+      icon: <FaLanguage />,
     },
     {
       title: "Manage ledgers",
@@ -97,25 +112,25 @@ function Sidebar({ display }) {
         {
           title: "Collection Report",
           path: "/ledger/collection-report",
-          icon: <></>,
+          icon: <FaAddressBook />,
         },
         {
           title: "Company Ledger",
           path: "/ledger/company-ledger",
-          icon: <></>,
+          icon: <FaAddressBook />,
         },
         {
           title: "My Statement",
           path: "/ledger/my-statement",
-          icon: <></>,
+          icon:<FaAddressBook />,
         },
         {
           title: "Profit & Loss",
           path: "/ledger/profit-loss",
-          icon: <></>,
+          icon: <GiProfit />,
         },
       ],
-      icon: <></>,
+      icon: <RiBillFill />,
     },
   ];
 

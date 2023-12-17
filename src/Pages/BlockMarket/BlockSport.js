@@ -7,7 +7,7 @@ export default function BlockSport() {
     const navigate = useNavigate();
     const [matches, setmatches] = useState(["a", "b"]);
   return (
-    <div>
+    <div style={{backgroundColor:"#2B2D3A", borderRadius:"10px", padding:"8px 16px"}}>
         <h5 style={{color:"white"}}>List</h5>
          <div style={{ overflow: "scroll" }}>
         <table class="table table-striped">

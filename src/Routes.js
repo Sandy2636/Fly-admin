@@ -16,6 +16,8 @@ import CommisionAndLimits from "./Pages/ManageClients/CommisionAndLimits/Commisi
 import CompanyReport from "./Pages/ManageLedgers/CompanyReport/CompanyReport";
 import MyStatement from "./Pages/ManageLedgers/MyStatement/MyStatement";
 import ProfitAndLoss from "./Pages/ManageLedgers/ProfitAndLoss/ProfitAndLoss";
+import Language from "./Pages/Language/Language";
+import CompanyLedger from "./Pages/ManageLedgers/CompanyLedger/CompanyLedger";
 
 function AppRoutes() {
   return (
@@ -64,7 +66,7 @@ function AppRoutes() {
         ></Route>
         <Route
           path="/language"
-          element={<HomeLayout child={<h1>language</h1>} />}
+          element={<HomeLayout child={<Language/>} />}
         ></Route>
         <Route
           path="/manage-password"
@@ -76,7 +78,7 @@ function AppRoutes() {
         ></Route>
         <Route
           path="/ledger/company-ledger"
-          element={<HomeLayout child={<CompanyReport />} />}
+          element={<HomeLayout child={<CompanyLedger />} />}
         ></Route>
         <Route
           path="/ledger/my-statement"

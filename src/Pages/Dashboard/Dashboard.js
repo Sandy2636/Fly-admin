@@ -4,11 +4,12 @@ function InfoBox({title,value}) {
     <div
       style={{
         background: "linear-gradient(to bottom, #735cff 15%, white 15%)",
-        width: "15rem",
+        width: "30%",
         borderRadius: "10px",
         padding: "15px 20px",
         marginBottom:"20px",
-        marginRight:"20px"
+        marginRight:"20px",
+        minWidth:"15rem"
       }}
     >
       <h6 style={{ color: "#64646B", margin: "5px 0px 0px 0px" }}>{title}</h6>
