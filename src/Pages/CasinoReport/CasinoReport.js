@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import { SlCalender } from "react-icons/sl";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import { SlCalender } from "react-icons/sl";
+// import "react-datepicker/dist/react-datepicker.css";
 // import DateTimePicker from 'react-datetime-picker';
 import Table from "../../Components/Table/Table";
 // type ValuePiece = Date | null;

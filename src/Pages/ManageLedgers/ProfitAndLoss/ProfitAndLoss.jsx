@@ -64,11 +64,11 @@ export default function ProfiltAndLoss() {
   return (
     // <div style={{ overflow: "scroll" }}>
     <div>
-      <div>
-        <p>Summary</p>
+      <div style={{backgroundColor:"#2B2D3A" ,borderRadius:'10px', padding:'8px 16px'}}>
+        <h4>Summary</h4>
         <div style={{ display: "flex" }}>
-          <p>All Time Total:</p>
-          <p>00</p>
+          <p>All Time Total :</p>
+          <p style={{fontWeight:600}}> 00</p>
         </div>
       </div>
       <Table title="Earning Report" data={data} columns={columns} />

@@ -18,6 +18,7 @@ import MyStatement from "./Pages/ManageLedgers/MyStatement/MyStatement";
 import ProfitAndLoss from "./Pages/ManageLedgers/ProfitAndLoss/ProfitAndLoss";
 import Language from "./Pages/Language/Language";
 import CompanyLedger from "./Pages/ManageLedgers/CompanyLedger/CompanyLedger";
+import CompletedMatches from "./Pages/CompletedMatches/CompletedMatches";
 
 function AppRoutes() {
   return (
@@ -42,7 +43,7 @@ function AppRoutes() {
         ></Route>
         <Route
           path="/completed-matches"
-          element={<HomeLayout child={<h1>Completed</h1>} />}
+          element={<HomeLayout child={<CompletedMatches/>} />}
         ></Route>
         <Route
           path="/casino-report"
