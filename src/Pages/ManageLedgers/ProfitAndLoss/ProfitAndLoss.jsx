@@ -62,10 +62,18 @@ export default function ProfiltAndLoss() {
     },
   ];
   return (
-  
-        // <div style={{ overflow: "scroll" }}>
-          <Table  title="Profit and Loss" data={data} columns={columns} />
+    // <div style={{ overflow: "scroll" }}>
+    <div>
+      <div>
+        <p>Summary</p>
+        <div style={{ display: "flex" }}>
+          <p>All Time Total:</p>
+          <p>00</p>
+        </div>
+      </div>
+      <Table title="Earning Report" data={data} columns={columns} />
+    </div>
+
     // </div>
   );
 }
-

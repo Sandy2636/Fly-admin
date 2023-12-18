@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { SlCalender } from "react-icons/sl";
 import "react-datepicker/dist/react-datepicker.css";
-import DateTimePicker from 'react-datetime-picker';
+// import DateTimePicker from 'react-datetime-picker';
 import Table from "../../Components/Table/Table";
 // type ValuePiece = Date | null;
 
 // type Value = ValuePiece | [ValuePiece, ValuePiece];
 export default function CasinoReport() {
-  const [value, onChange] = useState(new Date());
+  // const [value, onChange] = useState(new Date());
   const columns = [
     {
       name: "Title",
