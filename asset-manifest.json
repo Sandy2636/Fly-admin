@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/flybet9Client/static/css/main.108bd799.css",
-    "main.js": "/flybet9Client/static/js/main.ee646602.js",
-    "static/js/787.f44de3b8.chunk.js": "/flybet9Client/static/js/787.f44de3b8.chunk.js",
-    "static/media/Logo.png": "/flybet9Client/static/media/Logo.7125561c6be9e07db30d.png",
-    "static/media/logo.svg": "/flybet9Client/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/flybet9Client/index.html",
-    "main.108bd799.css.map": "/flybet9Client/static/css/main.108bd799.css.map",
-    "main.ee646602.js.map": "/flybet9Client/static/js/main.ee646602.js.map",
-    "787.f44de3b8.chunk.js.map": "/flybet9Client/static/js/787.f44de3b8.chunk.js.map"
+    "main.css": "/Fly-admin/static/css/main.3928150f.css",
+    "main.js": "/Fly-admin/static/js/main.25e788f5.js",
+    "static/js/787.f44de3b8.chunk.js": "/Fly-admin/static/js/787.f44de3b8.chunk.js",
+    "static/media/Logo.png": "/Fly-admin/static/media/Logo.7125561c6be9e07db30d.png",
+    "static/media/logo.svg": "/Fly-admin/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Fly-admin/index.html",
+    "main.3928150f.css.map": "/Fly-admin/static/css/main.3928150f.css.map",
+    "main.25e788f5.js.map": "/Fly-admin/static/js/main.25e788f5.js.map",
+    "787.f44de3b8.chunk.js.map": "/Fly-admin/static/js/787.f44de3b8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.108bd799.css",
-    "static/js/main.ee646602.js"
+    "static/css/main.3928150f.css",
+    "static/js/main.25e788f5.js"
   ]
 }
