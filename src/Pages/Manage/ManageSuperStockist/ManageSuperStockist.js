@@ -1,7 +1,7 @@
 import React from "react";
-import 'jspdf-autotable';
+import "jspdf-autotable";
 import ClientList from "../../../Components/ClientList/ClientList";
-import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf"
+import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 const ManageSuperStockist = () => {
   const data = {
     columns: [
@@ -169,9 +169,13 @@ const ManageSuperStockist = () => {
   };
 
   return (
-    <div >
-      <DownloadPdf columns={data.columns} data={data.rows} tableName={"Super Stockist"}/>
-      <ClientList data={data}/>
+    <div>
+      <DownloadPdf
+        columns={data.columns}
+        data={data.rows}
+        tableName={"Super Stockist"}
+      />
+      <ClientList data={data} />
     </div>
   );
 };
