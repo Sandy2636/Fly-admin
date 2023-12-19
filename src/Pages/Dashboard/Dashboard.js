@@ -13,7 +13,7 @@ function InfoBox({title,value}) {
       }}
     >
       <h6 style={{ color: "#64646B", margin: "5px 0px 0px 0px" }}>{title}</h6>
-      <h3 style={{ fontWeight: "700" }}>{value}</h3>
+      <h3 style={{ fontWeight: "700" ,color:'black'}}>{value}</h3>
     </div>
   );
 }
