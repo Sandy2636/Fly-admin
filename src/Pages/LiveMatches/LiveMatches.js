@@ -88,7 +88,16 @@ export default function LiveMatches() {
     <div>
       <div style={{ overflow: "auto" }}>
         {/* <MyComponent /> */}
-        <div style={{ padding: "16px 0" }}>
+        <div
+          style={{
+            padding: "16px 0",
+            display: "grid",
+            placeItems: "center",
+            background: "#2b2d3a",
+            borderRadius: "8px",
+            marginBottom: "8px",
+          }}
+        >
           <Tabs
             value={activeTab}
             sx={{
@@ -124,7 +133,15 @@ export default function LiveMatches() {
             />
           </Tabs>
         </div>
-        <div style={{ padding: "16px 0" }}>
+        <div
+          style={{
+            padding: "16px 0",
+            display: "grid",
+            placeItems: "center",
+            background: "#2b2d3a",
+            borderRadius: "8px",
+          }}
+        >
           <Tabs
             value={activeTabSport}
             sx={{
