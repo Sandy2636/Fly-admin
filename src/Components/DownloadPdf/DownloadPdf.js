@@ -25,8 +25,7 @@ export default function DownloadPdf({columns,data,tableName}) {
       <button
         style={{ color: "red" }}
         onClick={() => generatePDF(columns, data, tableName)}
-      >
-        Download PDF
+      > PDF
       </button>
     </div>
   );

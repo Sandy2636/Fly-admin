@@ -1,181 +1,261 @@
 import React from "react";
 import "jspdf-autotable";
 import ClientList from "../../../Components/ClientList/ClientList";
+import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
+import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
+import {useNavigate} from 'react-router-dom'
 const ManageSuperStockist = () => {
-  const data = {
-    columns: [
-      { label: "ID", field: "ID", sort: "asc", width: 100 },
-      { label: "UserName", field: "UserName", sort: "asc", width: 150 },
-      { label: "Name", field: "Name", sort: "asc", width: 200 },
-      { label: "FixLimit", field: "FixLimit", sort: "asc", width: 150 },
-      { label: "MyShare", field: "MyShare", sort: "asc", width: 150 },
-      { label: "MaxShare", field: "MaxShare", sort: "asc", width: 150 },
-      { label: "Exposure", field: "Exposure", sort: "asc", width: 150 },
-      { label: "Actions", field: "Actions", sort: "asc", width: 100 },
-    ],
-    rows: [
-      {
-        ID: 1,
-        UserName: "user1",
-        Name: "John Doe",
-        FixLimit: 10000,
-        MyShare: 5000,
-        MaxShare: 8000,
-        Exposure: 3000,
-        Actions: "Edit",
-      },
-      {
-        ID: 2,
-        UserName: "user2",
-        Name: "Jane Doe",
-        FixLimit: 15000,
-        MyShare: 7000,
-        MaxShare: 10000,
-        Exposure: 4000,
-        Actions: "Delete",
-      },
-      {
-        ID: 3,
-        UserName: "user3",
-        Name: "Alice Johnson",
-        FixLimit: 12000,
-        MyShare: 6000,
-        MaxShare: 9000,
-        Exposure: 3500,
-        Actions: "Edit",
-      },
-      {
-        ID: 4,
-        UserName: "user4",
-        Name: "Bob Smith",
-        FixLimit: 18000,
-        MyShare: 8500,
-        MaxShare: 12000,
-        Exposure: 5000,
-        Actions: "Delete",
-      },
-      {
-        ID: 5,
-        UserName: "user5",
-        Name: "Eva Brown",
-        FixLimit: 20000,
-        MyShare: 9500,
-        MaxShare: 15000,
-        Exposure: 6000,
-        Actions: "Edit",
-      },
-      {
-        ID: 6,
-        UserName: "user6",
-        Name: "Chris Wilson",
-        FixLimit: 13000,
-        MyShare: 7000,
-        MaxShare: 11000,
-        Exposure: 4500,
-        Actions: "Delete",
-      },
-      {
-        ID: 7,
-        UserName: "user7",
-        Name: "Grace Miller",
-        FixLimit: 16000,
-        MyShare: 8000,
-        MaxShare: 13000,
-        Exposure: 5500,
-        Actions: "Edit",
-      },
-      {
-        ID: 8,
-        UserName: "user8",
-        Name: "Daniel Lee",
-        FixLimit: 14000,
-        MyShare: 7500,
-        MaxShare: 10000,
-        Exposure: 4800,
-        Actions: "Delete",
-      },
-      {
-        ID: 9,
-        UserName: "user9",
-        Name: "Olivia White",
-        FixLimit: 17000,
-        MyShare: 8800,
-        MaxShare: 12000,
-        Exposure: 5200,
-        Actions: "Edit",
-      },
-      {
-        ID: 10,
-        UserName: "user10",
-        Name: "Michael Davis",
-        FixLimit: 19000,
-        MyShare: 9200,
-        MaxShare: 14000,
-        Exposure: 5800,
-        Actions: "Delete",
-      },
-      {
-        ID: 11,
-        UserName: "user11",
-        Name: "Sophia Taylor",
-        FixLimit: 11000,
-        MyShare: 5500,
-        MaxShare: 8500,
-        Exposure: 3200,
-        Actions: "Edit",
-      },
-      {
-        ID: 12,
-        UserName: "user12",
-        Name: "Matthew Brown",
-        FixLimit: 22000,
-        MyShare: 10500,
-        MaxShare: 16000,
-        Exposure: 7000,
-        Actions: "Delete",
-      },
-      {
-        ID: 13,
-        UserName: "user13",
-        Name: "Ava Wilson",
-        FixLimit: 25000,
-        MyShare: 12000,
-        MaxShare: 18000,
-        Exposure: 8000,
-        Actions: "Edit",
-      },
-      {
-        ID: 14,
-        UserName: "user14",
-        Name: "Ryan Harris",
-        FixLimit: 20000,
-        MyShare: 9500,
-        MaxShare: 15000,
-        Exposure: 6000,
-        Actions: "Delete",
-      },
-      {
-        ID: 15,
-        UserName: "user15",
-        Name: "Emma Rodriguez",
-        FixLimit: 18000,
-        MyShare: 8500,
-        MaxShare: 13000,
-        Exposure: 5500,
-        Actions: "Edit",
-      },
-    ],
-  };
+  const navigate = useNavigate();
+  const [filterText, setFilterText] = React.useState("");
+  const [resetPaginationToggle, setResetPaginationToggle] =
+    React.useState(false);
+  const [colData, setColData] = React.useState([]);
 
+  React.useEffect(() => {
+    const data = [
+      {
+        id: 1,
+        username: "user1",
+        name: "John Doe",
+        fix_limit: 10000,
+        my_share: 5000,
+        max_share: 8000,
+        exposure: 3000,
+        actions: "Edit",
+      },
+      {
+        id: 2,
+        username: "user2",
+        name: "Jane Doe",
+        fix_limit: 15000,
+        my_share: 7000,
+        max_share: 10000,
+        exposure: 4000,
+        actions: "Delete",
+      },
+      {
+        id: 3,
+        username: "user3",
+        name: "Alice Johnson",
+        fix_limit: 12000,
+        my_share: 6000,
+        max_share: 9000,
+        exposure: 3500,
+        actions: "Edit",
+      },
+      {
+        id: 4,
+        username: "user4",
+        name: "Bob Smith",
+        fix_limit: 18000,
+        my_share: 8500,
+        max_share: 12000,
+        exposure: 5000,
+        actions: "Delete",
+      },
+      {
+        id: 5,
+        username: "user5",
+        name: "Eva Brown",
+        fix_limit: 20000,
+        my_share: 9500,
+        max_share: 15000,
+        exposure: 6000,
+        actions: "Edit",
+      },
+      {
+        id: 6,
+        username: "user6",
+        name: "Chris Wilson",
+        fix_limit: 13000,
+        my_share: 7000,
+        max_share: 11000,
+        exposure: 4500,
+        actions: "Delete",
+      },
+      {
+        id: 7,
+        username: "user7",
+        name: "Grace Miller",
+        fix_limit: 16000,
+        my_share: 8000,
+        max_share: 13000,
+        exposure: 5500,
+        actions: "Edit",
+      },
+      {
+        id: 8,
+        username: "user8",
+        name: "Daniel Lee",
+        fix_limit: 14000,
+        my_share: 7500,
+        max_share: 10000,
+        exposure: 4800,
+        actions: "Delete",
+      },
+      {
+        id: 9,
+        username: "user9",
+        name: "Olivia White",
+        fix_limit: 17000,
+        my_share: 8800,
+        max_share: 12000,
+        exposure: 5200,
+        actions: "Edit",
+      },
+      {
+        id: 10,
+        username: "user10",
+        name: "Michael Davis",
+        fix_limit: 19000,
+        my_share: 9200,
+        max_share: 14000,
+        exposure: 5800,
+        actions: "Delete",
+      },
+      {
+        id: 11,
+        username: "user11",
+        name: "Sophia Taylor",
+        fix_limit: 11000,
+        my_share: 5500,
+        max_share: 8500,
+        exposure: 3200,
+        actions: "Edit",
+      },
+      {
+        id: 12,
+        username: "user12",
+        name: "Matthew Brown",
+        fix_limit: 22000,
+        my_share: 10500,
+        max_share: 16000,
+        exposure: 7000,
+        actions: "Delete",
+      },
+      {
+        id: 13,
+        username: "user13",
+        name: "Ava Wilson",
+        fix_limit: 25000,
+        my_share: 12000,
+        max_share: 18000,
+        exposure: 8000,
+        actions: "Edit",
+      },
+      {
+        id: 14,
+        username: "user14",
+        name: "Ryan Harris",
+        fix_limit: 20000,
+        my_share: 9500,
+        max_share: 15000,
+        exposure: 6000,
+        actions: "Delete",
+      },
+      {
+        id: 15,
+        username: "user15",
+        name: "Emma Rodriguez",
+        fix_limit: 18000,
+        my_share: 8500,
+        max_share: 13000,
+        exposure: 5500,
+        actions: "Edit",
+      },
+    ];
+    function filterData(searchQuery) {
+      // Convert the search query to lowercase for case-insensitive matching
+      const query = searchQuery.toLowerCase();
+
+      // Use the filter method to find matching objects
+      const result = data.filter((user) => {
+        // Check if any of the fields contain the search query
+        return Object.values(user).some(
+          (value) =>
+            typeof value === "string" && value.toLowerCase().includes(query)
+        );
+      });
+
+      return result;
+    }
+    setColData(filterData(filterText));
+  }, [filterText]);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
+
+    return (
+      <input
+        style={{ outline: "none" }}
+        placeholder="Search Here"
+        onChange={(e) => setFilterText(e.target.value)}
+        filterText={filterText}
+      />
+    );
+  }, [filterText, resetPaginationToggle]);
+  const columns = [
+    { name: "ID", selector: (row) => row.id },
+    { name: "UserName", selector: (row) => row.username },
+    { name: "Name", selector: (row) => row.name },
+    { name: "FixLimit", selector: (row) => row.fix_limit },
+    { name: "MyShare", selector: (row) => row.my_share },
+    { name: "MaxShare", selector: (row) => row.max_share },
+    { name: "Exposure", selector: (row) => row.exposure },
+    { name: "Actions", selector: (row) => row.actions },
+  ];
+  const actionsMemo = React.useMemo(
+    () => (
+      <div style={{display:'flex', fontSize:'1rem'}}>
+           <button
+          onClick={() => {
+            navigate("/manage/super-stockist/create-user");
+          }}
+          style={{
+            backgroundColor: "#896CEF",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            margin: "0px 5px",
+          }}
+        >
+          Create SST
+        </button>
+        <CSVGenerator columns={columns} data={colData}/>
+        <DownloadPdf columns={columns} data={colData} tableName={"Table Name"} />
+      </div>
+    ),
+    []
+  );
   return (
     <div>
-      <DownloadPdf
-        columns={data.columns}
-        data={data.rows}
-        tableName={"Super Stockist"}
-      />
-      <ClientList data={data} />
+      {/* <div style={{display:'flex'}}>
+        <DownloadPdf
+          columns={columns}
+          data={colData}
+          tableName={"Super Stockist"}
+        />
+        <CSVGenerator columns={columns} data={colData} />
+      </div> */}
+      <div>
+        <Table
+          data={colData}
+          columns={columns}
+          title="Manage Super Stockist"
+          pagination
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          persistTableHead
+          paginationResetDefaultPage={resetPaginationToggle}
+          actions={actionsMemo}
+        />
+      </div>
     </div>
   );
 };

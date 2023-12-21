@@ -1,7 +1,10 @@
 import React from "react";
 import Table from "../../../Components/Table/Table";
-
+import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
+import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
+import {useNavigate} from 'react-router-dom'
 function ManageUser() {
+  const navigate = useNavigate();
   const [filterText, setFilterText] = React.useState("");
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
@@ -205,9 +208,43 @@ function ManageUser() {
     { name: "Exposure", selector: (row) => row.exposure },
     { name: "Actions", selector: (row) => row.actions },
   ];
-
+  const actionsMemo = React.useMemo(
+    () => (
+      <div style={{ display: "flex", fontSize: "1rem" }}>
+        <button
+          onClick={() => {
+            navigate("/manage/user/create-user");
+          }}
+          style={{
+            backgroundColor: "#896CEF",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            margin: "0px 5px",
+          }}
+        >
+          Create Agent
+        </button>
+        <CSVGenerator columns={columns} data={colData} />
+        <DownloadPdf
+          columns={columns}
+          data={colData}
+          tableName={"Table Name"}
+        />
+      </div>
+    ),
+    []
+  );
   return (
     <div>
+      {/* <div style={{ display: "flex" }}>
+        <DownloadPdf
+          columns={columns}
+          data={colData}
+          tableName={"Super Stockist"}
+        />
+        <CSVGenerator columns={columns} data={colData} />
+      </div> */}
       <Table
         data={colData}
         columns={columns}
@@ -217,6 +254,7 @@ function ManageUser() {
         subHeaderComponent={subHeaderComponentMemo}
         persistTableHead
         paginationResetDefaultPage={resetPaginationToggle}
+        actions={actionsMemo}
       />
     </div>
   );

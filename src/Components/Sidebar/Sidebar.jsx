@@ -37,7 +37,7 @@ function Sidebar({ display }) {
       options: [
         {
           title: "Super Stockist",
-          path: "/manage/sst",
+          path: "/manage/super-stockist",
           icon: <FaUserFriends />,
         },
         {

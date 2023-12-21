@@ -19,6 +19,7 @@ import ProfitAndLoss from "./Pages/ManageLedgers/ProfitAndLoss/ProfitAndLoss";
 import Language from "./Pages/Language/Language";
 import CompanyLedger from "./Pages/ManageLedgers/CompanyLedger/CompanyLedger";
 import CompletedMatches from "./Pages/CompletedMatches/CompletedMatches";
+import CreateUser from "./Pages/CreateUser/CreateUser";
 
 function AppRoutes() {
   return (
@@ -26,7 +27,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
         <Route
-          path="/manage/sst"
+          path="/manage/super-stockist"
           element={<HomeLayout child={<ManageSuperStockist />} />}
         ></Route>
         <Route
@@ -88,6 +89,10 @@ function AppRoutes() {
         <Route
           path="/ledger/profit-loss"
           element={<HomeLayout child={<ProfitAndLoss />} />}
+        ></Route>
+         <Route
+          path="/manage/:id/create-user"
+          element={<HomeLayout child={<CreateUser/>} />}
         ></Route>
       </Routes>
     </div>

@@ -3,7 +3,7 @@ import React from "react";
 export default function Language() {
   return (
     <div>
-      <div style={{ background: "#2B2D3A", width: "100%", padding:'8px 16px' }}>
+      <div style={{ background: "#2B2D3A", width: "100%", padding:'8px 16px',borderRadius:'10px'}}>
         <p>Change Language</p>
         <div
           style={{

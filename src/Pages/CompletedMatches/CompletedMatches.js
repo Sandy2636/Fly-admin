@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import Table from "../../Components/Table/Table";
 import { Tab, Tabs } from "@mui/material";
+import DateRangePicker from "@wojtekmaj/react-daterange-picker";
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
+import "react-calendar/dist/Calendar.css";
+import { SlCalender } from "react-icons/sl";
+import { MdOutlineClear } from "react-icons/md";
 export default function CompletedMatches() {
   const [activeTab, setActiveTab] = useState(1);
   const [activeTabSport, setActiveTabSport] = useState(0);
+  const [value, onChange] = useState([new Date(), new Date()]);
   const columns = [
     {
       name: "ID",
@@ -52,7 +58,11 @@ export default function CompletedMatches() {
   const returnCurrentTabTable = () => {
     if (activeTab == 1 && activeTabSport == 0)
       return (
-        <Table title="Completed Cricket Matches" data={data} columns={columns} />
+        <Table
+          title="Completed Cricket Matches"
+          data={data}
+          columns={columns}
+        />
       );
     else if (activeTab == 1 && activeTabSport == 1)
       return (
@@ -67,6 +77,10 @@ export default function CompletedMatches() {
   return (
     <div>
       <div style={{ padding: "16px 0" }}>
+        {/* <div style={{backgroundColor:"white"}}> */}
+          <DateRangePicker onChange={onChange} value={value} clearIcon={<MdOutlineClear color="white"  />} calendarIcon={<SlCalender color="white"/>} format={"dd-MM-y"}/>
+        {/* </div> */}
+
         <Tabs
           value={activeTabSport}
           sx={{

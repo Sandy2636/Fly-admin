@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-// import DatePicker from "react-datepicker";
-// import { SlCalender } from "react-icons/sl";
-// import "react-datepicker/dist/react-datepicker.css";
-// import DateTimePicker from 'react-datetime-picker';
+import DateRangePicker from "@wojtekmaj/react-daterange-picker";
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
+import "react-calendar/dist/Calendar.css";
+import { SlCalender } from "react-icons/sl";
+import { MdOutlineClear } from "react-icons/md";
 import Table from "../../Components/Table/Table";
-// type ValuePiece = Date | null;
 
-// type Value = ValuePiece | [ValuePiece, ValuePiece];
 export default function CasinoReport() {
-  // const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState([new Date(), new Date()]);
   const columns = [
     {
       name: "Title",
@@ -48,7 +47,7 @@ export default function CasinoReport() {
   ];
   return (
     <div>
-      {/* <DateTimePicker onChange={onChange} value={value} /> */}
+       <DateRangePicker onChange={onChange} value={value} clearIcon={<MdOutlineClear color="white"  />} calendarIcon={<SlCalender color="white"/>} format={"dd-MM-y"}/>
       <Table  title="Casino Loss and Profit" data={data} columns={columns}/>
     </div>
   );
