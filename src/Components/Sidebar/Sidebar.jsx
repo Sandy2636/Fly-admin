@@ -36,8 +36,18 @@ function Sidebar({ display }) {
       isExpandable: true,
       options: [
         {
+          title: "Super Admin",
+          path: "/manage/super-admin",
+          icon: <FaUserFriends />,
+        },
+        {
           title: "Super Stockist",
           path: "/manage/super-stockist",
+          icon: <FaUserFriends />,
+        },
+        {
+          title: "Admin",
+          path: "/manage/admin",
           icon: <FaUserFriends />,
         },
         {
@@ -122,7 +132,7 @@ function Sidebar({ display }) {
         {
           title: "My Statement",
           path: "/ledger/my-statement",
-          icon:<FaAddressBook />,
+          icon: <FaAddressBook />,
         },
         {
           title: "Profit & Loss",

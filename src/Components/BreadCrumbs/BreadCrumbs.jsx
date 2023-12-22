@@ -23,7 +23,7 @@ function BreadCrumbs({ heading, links }) {
         {["Dashboard", ...scrumb]
           .filter((item) => item != "")
           .map((item) => (
-            <Link underline="hover" color="inherit" href="/">
+            <Link underline="hover" color="inherit">
               {item
                 .split("-")
                 .map((item) => capitalize(item))

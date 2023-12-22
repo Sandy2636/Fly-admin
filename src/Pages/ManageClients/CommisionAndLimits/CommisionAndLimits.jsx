@@ -2,7 +2,7 @@ import React from "react";
 import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
 function CommisionAndLimits() {
   const navigate = useNavigate();
@@ -204,18 +204,17 @@ function CommisionAndLimits() {
     { name: "ID", selector: (row) => row.id },
     { name: "UserName", selector: (row) => row.username },
     { name: "Name", selector: (row) => row.name },
-    { name: "FixLimit", selector: (row) => row.fix_limit },
-    { name: "MyShare", selector: (row) => row.my_share },
-    { name: "MaxShare", selector: (row) => row.max_share },
-    { name: "Exposure", selector: (row) => row.exposure },
-    { name: "Actions", selector: (row) => row.actions },
   ];
   const actionsMemo = React.useMemo(
     () => (
-      <div style={{display:'flex', fontSize:'1rem'}}>
+      <div style={{ display: "flex", fontSize: "1rem" }}>
         {/* <button onClick={()=>{navigate('/manage/punter/create-user')}} style={{backgroundColor:"#896CEF",color:'white', border:'none', borderRadius:'5px',margin:'0px 5px' }}>Create New User</button> */}
-        <CSVGenerator columns={columns} data={colData}/>
-        <DownloadPdf columns={columns} data={colData} tableName={"Table Name"} />
+        <CSVGenerator columns={columns} data={colData} />
+        <DownloadPdf
+          columns={columns}
+          data={colData}
+          tableName={"Table Name"}
+        />
       </div>
     ),
     []
@@ -232,7 +231,7 @@ function CommisionAndLimits() {
       sortable: true,
     },
   ];
-  
+
   const childColumns = [
     {
       name: "Child Column 1",
@@ -245,30 +244,86 @@ function CommisionAndLimits() {
       sortable: true,
     },
   ];
+
+  const TableElement = ({ commissionData, title, limitsData }) => {
+    return (
+      <div
+        style={{
+          backgroundColor: "#2b2d3a",
+          borderRadius: "8px",
+          padding: "16px",
+          margin: "16px 0",
+          overflowX: "auto",
+        }}
+      >
+        <span style={{ padding: "16px 0", fontSize: 18 }}>{title}</span>
+        <br />
+        <br />
+        <table
+          style={{
+            textAlign: "center",
+            width: "96%",
+            backgroundColor: "#2b2d3a",
+            border: "1px solid #fff",
+            borderRadius: 8,
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ padding: "16px 0 0 0" }}>Client Commission</th>
+              <th style={{ padding: "16px 0 0 0" }}>Client Limit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <Table data={commissionData} columns={columns} />
+              </td>
+              <td>
+                <Table data={limitsData} columns={columns} />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  };
   return (
     <div>
-       {/* <div style={{display:'flex'}}>
-        <DownloadPdf
-          columns={columns}
-          data={colData}
-          tableName={"Super Stockist"}
-        />
-        <CSVGenerator columns={columns} data={colData} />
-      </div> */}
-      <Table
-        data={colData}
-        columns={columns}
-        title="User level"
-        pagination
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        persistTableHead
-        paginationResetDefaultPage={resetPaginationToggle}
-        actions={actionsMemo}
+      <TableElement
+        title={"Super Stockist"}
+        commissionData={colData}
+        limitsData={colData}
       />
+      <TableElement
+        title={"Stockist"}
+        commissionData={colData}
+        limitsData={colData}
+      />
+      <TableElement
+        title={"Agent"}
+        commissionData={colData}
+        limitsData={colData}
+      />
+      <TableElement
+        title={"All Users"}
+        commissionData={colData}
+        limitsData={colData}
+      />
+      <div
+        style={{
+          backgroundColor: "#2b2d3a",
+          borderRadius: "8px",
+          padding: "16px",
+          margin: "16px 0",
+          overflowX: "auto",
+        }}
+      >
+        <span style={{ padding: "16px 0", fontSize: 18 }}>Summary</span>
+        <Table data={colData} columns={columns} />
+      </div>
     </div>
   );
 }
-
 
 export default CommisionAndLimits;
