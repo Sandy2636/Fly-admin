@@ -22,12 +22,17 @@ import CompletedMatches from "./Pages/CompletedMatches/CompletedMatches";
 import CreateUser from "./Pages/CreateUser/CreateUser";
 import SuperAdmin from "./Pages/Manage/SuperAdmin/SuperAdmin";
 import Admin from "./Pages/Manage/Admin/Admin";
+import Login from "./Pages/Login/Login";
 
 function AppRoutes() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
+        <Route
+          path="/login"
+          element={<Login/>}
+        ></Route>
         <Route
           path="/manage/super-admin"
           element={<HomeLayout child={<SuperAdmin />} />}
