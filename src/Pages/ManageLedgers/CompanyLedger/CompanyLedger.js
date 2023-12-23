@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from '../../../Components/Table/Table'
 import DownloadPdf from '../../../Components/DownloadPdf/DownloadPdf';
+import CSVGenerator from '../../../Components/CSVGenrator/CSVGenerator';
 export default function CompanyLedger() {
   const columns = [
     { name: "DATE/TIME", selector: (row) => row.id },
@@ -19,14 +20,21 @@ export default function CompanyLedger() {
     // Add more data rows as needed
   ];
   
-    
+  const actionsMemo = React.useMemo(
+    () => (
+      <div style={{display:'flex', fontSize:'1rem'}}>
+        <CSVGenerator columns={columns} data={data}/>
+        <DownloadPdf columns={columns} data={data} tableName={"Table Name"} />
+      </div>
+    ),
+    []
+  );
 
    
   return (
     <div>
         <div>
-            <DownloadPdf columns={columns} data={data} tableName={"Table Name"}/>
-            <Table title="Agent Ledger" data={data} columns={columns}/>
+            <Table title="Agent Ledger" data={data} columns={columns} actions={actionsMemo}/>
         </div>
     </div>
   )

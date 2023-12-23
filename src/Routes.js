@@ -20,6 +20,8 @@ import Language from "./Pages/Language/Language";
 import CompanyLedger from "./Pages/ManageLedgers/CompanyLedger/CompanyLedger";
 import CompletedMatches from "./Pages/CompletedMatches/CompletedMatches";
 import CreateUser from "./Pages/CreateUser/CreateUser";
+import SuperAdmin from "./Pages/Manage/SuperAdmin/SuperAdmin";
+import Admin from "./Pages/Manage/Admin/Admin";
 
 function AppRoutes() {
   return (
@@ -27,8 +29,16 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
         <Route
+          path="/manage/super-admin"
+          element={<HomeLayout child={<SuperAdmin />} />}
+        ></Route>
+        <Route
           path="/manage/super-stockist"
           element={<HomeLayout child={<ManageSuperStockist />} />}
+        ></Route>
+        <Route
+          path="/manage/admin"
+          element={<HomeLayout child={<Admin />} />}
         ></Route>
         <Route
           path="/manage/stockist"
