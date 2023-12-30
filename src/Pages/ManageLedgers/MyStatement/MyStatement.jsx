@@ -3,6 +3,8 @@ import Table from "../../../Components/Table/Table";
 import generatePDF, { Resolution, Margin } from "react-to-pdf";
 import jsPDF from "jspdf";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
+import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
+
 function MyStatement() {
   const columns = [
     { name: "Date", selector: (row) => row.id },
@@ -101,13 +103,14 @@ function MyStatement() {
   );
   const actionsMemo = React.useMemo(
     () => (
-      <div>
-        <Export onExport={() => downloadCSV(data)} />
+      <div style={{display:'flex', fontSize:'1rem'}}>
+        <CSVGenerator columns={columns} data={data}/>
         <DownloadPdf columns={columns} data={data} tableName={"Table Name"} />
       </div>
     ),
     []
   );
+
   return (
     <div>
       <Table

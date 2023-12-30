@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
+import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import 'jspdf-autotable';
+// import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 
 export default function ProfiltAndLoss() {
   const [matches, setmatches] = useState(["a", "b"]);
@@ -56,6 +58,15 @@ export default function ProfiltAndLoss() {
     { id: 14, pid: "match14", title: "Match N", sports: 160, date: "2024-02-01", profit_loss: 80 },
     { id: 15, pid: "match15", title: "Match O", sports: 140, date: "2024-03-01", profit_loss: 70 },
   ];
+  const actionsMemo = React.useMemo(
+    () => (
+      <div style={{display:'flex', fontSize:'1rem'}}>
+        <CSVGenerator columns={columns} data={data}/>
+        <DownloadPdf columns={columns} data={data} tableName={"Table Name"} />
+      </div>
+    ),
+    []
+  );
 
   return (
     // <div style={{ overflow: "scroll" }}>
@@ -67,8 +78,7 @@ export default function ProfiltAndLoss() {
           <p style={{fontWeight:600}}> 00</p>
         </div>
       </div>
-      <DownloadPdf columns={columns} data={data} tableName={"Table Name"}/>
-      <Table title="Earning Report" data={data} columns={columns} />
+      <Table title="Earning Report" data={data} columns={columns} actions={actionsMemo}/>
     </div>
 
     // </div>

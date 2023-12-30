@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Table from "../../../Components/Table/Table";
 import { Tab, Tabs } from "@mui/material";
 import { usePDF } from "react-to-pdf";
-import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 export default function CollectionReport() {
   const [activeTab, setActiveTab] = useState(1);
@@ -29,13 +29,24 @@ export default function CollectionReport() {
       pid: "idk",
     },
   ];
+  const actionsMemo = React.useMemo(
+    () => (
+      <div style={{display:'flex', fontSize:'1rem'}}>
+        <CSVGenerator columns={columns} data={data}/>
+        <DownloadPdf columns={columns} data={data} tableName={"Table Name"} />
+      </div>
+    ),
+    []
+  );
   const returnCurrentTabTable = () => {
+   
     if (activeTab == 1 && activeTabSport == 0)
       return (
         <Table
           title="PAYMENT RECEIVING FROM (Lena hai)"
           data={data}
           columns={columns}
+          actions={actionsMemo}
         />
       );
     else if (activeTab == 1 && activeTabSport == 1)
@@ -44,6 +55,7 @@ export default function CollectionReport() {
           title="PAYMENT PAID TO (Dena hai)"
           data={data}
           columns={columns}
+          actions={actionsMemo}
         />
       );
     else if (activeTab == 1 && activeTabSport == 2)
@@ -52,32 +64,33 @@ export default function CollectionReport() {
           title="PAYMENT CLAER (Clear hai)"
           data={data}
           columns={columns}
+          actions={actionsMemo}
         />
       );
     else return <></>;
   };
 
-  const options = {
-    method: 'open',
-    resolution: Resolution.HIGH,
-    page: {
-       margin: Margin.SMALL,
-       format: 'a4',
-       orientation: 'portrait',
-    },
-    canvas: {
-       mimeType: 'image/png',
-       qualityRatio: 1
-    },
-    overrides: {
-       pdf: {
-          compress: true
-       },
-       canvas: {
-          useCORS: true
-       }
-    },
- };
+//   const options = {
+//     method: 'open',
+//     resolution: Resolution.HIGH,
+//     page: {
+//        margin: Margin.SMALL,
+//        format: 'a4',
+//        orientation: 'portrait',
+//     },
+//     canvas: {
+//        mimeType: 'image/png',
+//        qualityRatio: 1
+//     },
+//     overrides: {
+//        pdf: {
+//           compress: true
+//        },
+//        canvas: {
+//           useCORS: true
+//        }
+//     },
+//  };
  const getTargetElement = () => document.getElementById('content-id');
 
   return (
@@ -128,62 +141,9 @@ export default function CollectionReport() {
       </div>
       <div>
         {/* <button style={{color:"red"}} onClick={() => generatePDF(getTargetElement, options)}>Download PDF</button> */}
-        <DownloadPdf columns={columns} data={data} tableName = "Collection Report"/>
         <div id="content-id">{returnCurrentTabTable()}</div>
       </div>
     </div>
   );
 }
-const InfoTable = () => {
-  const [matches, setmatches] = useState(["a", "b"]);
-  return (
-    <div
-      style={{
-        border: "1px solid #735cff",
-        borderTopLeftRadius: "10px",
-        borderTopRightRadius: "10px",
-        marginRight: "10px",
-        marginBottom: "10px",
-        width: "100%",
-        // minWidth:"1rem",
-        maxWidth: "23rem",
-      }}
-    >
-      <div
-        style={{
-          background: "#735cff",
-          padding: "10px ",
-          borderTopLeftRadius: "10px",
-          borderTopRightRadius: "10px",
-        }}
-      >
-        <p style={{ color: "white", margin: "0px" }}>
-          PAYMENT RECEIVING FROM(lene hai)
-        </p>
-      </div>
 
-      <div>
-        <div style={{ overflow: "scroll" }}>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Client</th>
-                <th scope="col">Balance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matches.map((item) => {
-                return (
-                  <tr>
-                    <td>00</td>
-                    <td>00</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-};
