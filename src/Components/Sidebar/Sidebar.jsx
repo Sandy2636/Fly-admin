@@ -19,6 +19,7 @@ import { TbPasswordMobilePhone } from "react-icons/tb";
 import { FaLanguage } from "react-icons/fa6";
 import { RiBillFill } from "react-icons/ri";
 import { FaAddressBook } from "react-icons/fa";
+
 function Sidebar({ display }) {
   const navigate = useNavigate();
   const handleListItemClick = (path) => {
