@@ -1,19 +1,18 @@
 import React from "react";
-function InfoBox({title,value}) {
+function InfoBox({ title, value }) {
   return (
     <div
       style={{
         background: "linear-gradient(to bottom, #735cff 15%, white 15%)",
-        width: "30%",
+        width: "32%",
         borderRadius: "10px",
         padding: "15px 20px",
-        marginBottom:"20px",
-        marginRight:"20px",
-        minWidth:"15rem"
+        marginBottom: "20px",
+        minWidth: "15rem",
       }}
     >
       <h6 style={{ color: "#64646B", margin: "5px 0px 0px 0px" }}>{title}</h6>
-      <h3 style={{ fontWeight: "700" ,color:'black'}}>{value}</h3>
+      <h3 style={{ fontWeight: "700", color: "black" }}>{value}</h3>
     </div>
   );
 }
@@ -26,15 +25,22 @@ export default function Dashboard() {
       </div>
       <div>
         <p style={{ color: "#BCBCBF" }}>User Information</p>
-        <div style={{ backgroundColor: "#2B2D3A",borderRadius:"15px" }}>
-          <div style={{ padding: "20px", display:'flex', justifyContent:'flex-start',flexWrap:'wrap'}}>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
-            <InfoBox title={"Level"} value={"Super Stockist"}/>
+        <div style={{ backgroundColor: "#2B2D3A", borderRadius: "15px" }}>
+          <div
+            style={{
+              padding: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"Level"} value={"Super Stockist"} />
           </div>
         </div>
       </div>
