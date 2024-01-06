@@ -1,49 +1,49 @@
 input {
-    /* Remove all borders, padding, and margin */
-    border: none;
-    padding: 0;
-    margin: 0;
-  
-    /* Remove any default background color */
-    background: none;
-  
-    /* Remove any default outline styles */
-    outline: none;
-  
-    /* Remove any default box-shadow */
-    box-shadow: none;
-  
-    /* Set font styles to inherit from the parent */
-    font: inherit;
-  }
-  .fromDiv{
-    box-shadow: 0 0 25px #735cff;
-  }
-  .fromDiv label{
-    color: #5f5f5f;
-  }
-  .inputBox{
-    background-color: #bebebe;
-    padding: 8px 16px;
-    display: flex;
-   align-items: center;
-   border-radius: 10px;
-  }
-  .inputBox span {
-    color: #414141;
-  }
-  .fromDiv button{
-    margin: 10px 0 5px;
-    padding: 8px 20px;
-    width: 100%;
-    background-color: #735cff;
-    color:white;
-    border-radius: 10px;
-    border: none;
-    font-weight: 500;
-    outline: none;
-  
-    box-shadow: 0px 5px 0px #5946cc;
-  }
+  /* Remove all borders, padding, and margin */
+  border: none;
+  padding: 0;
+  margin: 0;
 
-  
+  /* Remove any default background color */
+  background: none;
+
+  /* Remove any default outline styles */
+  outline: none;
+
+  /* Remove any default box-shadow */
+  box-shadow: none;
+
+  /* Set font styles to inherit from the parent */
+  font: inherit;
+}
+.fromDiv{
+  box-shadow: 0 0 25px #735cff;
+}
+.fromDiv label{
+  color: #5f5f5f;
+}
+.inputBox{
+  background-color: #bebebe;
+  padding: 8px 16px;
+  display: flex;
+ align-items: center;
+ border-radius: 10px;
+}
+.inputBox span {
+  color: #414141;
+}
+.fromDiv button{
+  margin: 10px 0 5px;
+  padding: 8px 20px;
+  width: 100%;
+  background-color: #735cff;
+  color:white;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  outline: none;
+  box-shadow: 0px 5px 0px #5946cc;
+}
+label{
+margin: 8px 0px 0px 0px;
+}

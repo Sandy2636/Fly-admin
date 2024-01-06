@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes,useNavigate  } from "react-router-dom";
 import HomeLayout from "./Layout/Homelayout/HomeLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import LiveMatches from "./Pages/LiveMatches/LiveMatches";
@@ -23,8 +23,18 @@ import CreateUser from "./Pages/CreateUser/CreateUser";
 import SuperAdmin from "./Pages/Manage/SuperAdmin/SuperAdmin";
 import Admin from "./Pages/Manage/Admin/Admin";
 import Login from "./Pages/Login/Login";
+import Cookies from "js-cookie";
 
 function AppRoutes() {
+  const navigate = useNavigate();
+  const isTokenPresent = Cookies.get('jwtToken') !== undefined;
+  useEffect(() => {
+    if (!isTokenPresent) {
+      navigate("/login");
+    }
+  },[])
+  
+   
   return (
     <div>
       <Routes>
