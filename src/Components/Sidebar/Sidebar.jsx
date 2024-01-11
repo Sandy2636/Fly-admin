@@ -175,7 +175,7 @@ function Sidebar({ display }) {
         </div>
 
         {isExpanded && item.isExpandable && (
-          <div>
+          <div style={{ marginLeft: 20 }}>
             {item.options.map((obj) => (
               <div
                 className="option"

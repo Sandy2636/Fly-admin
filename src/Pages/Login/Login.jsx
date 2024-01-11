@@ -117,6 +117,7 @@ const Login = () => {
             <div className="inputBox">
               <span style={{ marginRight: "10px" }}>{<FaUser />}</span>{" "}
               <input
+                className="loginInputs"
                 type="text"
                 id="username"
                 value={username}
@@ -129,6 +130,7 @@ const Login = () => {
             <div className="inputBox">
               <span style={{ marginRight: "10px" }}>{<FaKey />}</span>{" "}
               <input
+                 className="loginInputs"
                 type="password"
                 id="password"
                 value={password}
@@ -150,6 +152,7 @@ const Login = () => {
             </p>
             <div className="inputBox">
               <input
+                 className="loginInputs"
                 style={{ textAlign: "center" }}
                 type="text"
                 id="captcha"

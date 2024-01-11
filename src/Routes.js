@@ -27,12 +27,12 @@ import Cookies from "js-cookie";
 
 function AppRoutes() {
   const navigate = useNavigate();
-  const isTokenPresent = Cookies.get('jwtToken') !== undefined;
-  useEffect(() => {
-    if (!isTokenPresent) {
-      navigate("/login");
-    }
-  },[])
+  // const isTokenPresent = Cookies.get('jwtToken') !== undefined;
+  // useEffect(() => {
+  //   if (!isTokenPresent) {
+  //     navigate("/login");
+  //   }
+  // },[])
   
    
   return (

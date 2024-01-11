@@ -1,19 +1,10 @@
-input {
-  /* Remove all borders, padding, and margin */
+.loginInputs {
   border: none;
   padding: 0;
   margin: 0;
-
-  /* Remove any default background color */
   background: none;
-
-  /* Remove any default outline styles */
   outline: none;
-
-  /* Remove any default box-shadow */
   box-shadow: none;
-
-  /* Set font styles to inherit from the parent */
   font: inherit;
 }
 .fromDiv{

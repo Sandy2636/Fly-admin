@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./CreateUser.css";
+import axios from "axios";
 export default function CreateUser() {
-  const [userName, setUserName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [username, setUserName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [fixLimit, setFixLimit] = useState("");
   const [myMatchShare, setMyMatchShare] = useState("");
   const [otherMatchShare, setOtherMatchShare] = useState("");
@@ -11,18 +13,19 @@ export default function CreateUser() {
   const [sessionCommission, setSessionCommission] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setuseType] = useState("");
+  const [user_type, setuseType] = useState("");
   const { id } = useParams();
 
   useEffect(() => {
     const capitalizeFirstLetter = (input) => {
-      return input.split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      return input
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
     };
 
-    const userType = capitalizeFirstLetter(id);
-    setuseType(userType);
+    const user_type = capitalizeFirstLetter(id);
+    setuseType(user_type);
   }, [id]);
 
   const handleChange = (setter) => (e) => {
@@ -30,6 +33,19 @@ export default function CreateUser() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios
+      .post("/users/add-user", {
+        username,
+        email: "notRequied@gmail.com",
+        password,
+        credits: "0",
+        user_type,
+        first_name,
+        last_name,
+      })
+      .then((data) => {console.log(data);}).catch((error)=>{
+        console.log(error);
+      });
   };
   return (
     <div
@@ -39,7 +55,7 @@ export default function CreateUser() {
         borderRadius: "10px",
       }}
     >
-      <h5 style={{textAlign:'center'}}>Create new {userType}</h5>
+      <h5 style={{ textAlign: "center" }}>Create new {user_type}</h5>
       <form
         onSubmit={handleSubmit}
         style={{ width: "100%", maxWidth: "400px", margin: "auto" }}
@@ -110,7 +126,7 @@ export default function CreateUser() {
             style={{ width: "40%", minWidth: "120px" }}
             htmlFor="otherMatchShare"
           >
-            {userType} Match Share
+            {user_type} Match Share
           </label>
           <input
             type="text"
@@ -124,7 +140,7 @@ export default function CreateUser() {
             style={{ width: "40%", minWidth: "120px" }}
             htmlFor="matchCommission"
           >
-            {userType} Match Commission
+            {user_type} Match Commission
           </label>
           <input
             type="text"
@@ -138,7 +154,7 @@ export default function CreateUser() {
             style={{ width: "40%", minWidth: "120px" }}
             htmlFor="sessionCommission"
           >
-            {userType} Session Commission
+            {user_type} Session Commission
           </label>
           <input
             type="text"
