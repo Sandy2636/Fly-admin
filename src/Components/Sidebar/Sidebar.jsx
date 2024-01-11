@@ -19,6 +19,8 @@ import { TbPasswordMobilePhone } from "react-icons/tb";
 import { FaLanguage } from "react-icons/fa6";
 import { RiBillFill } from "react-icons/ri";
 import { FaAddressBook } from "react-icons/fa";
+import { MdOutlineSettings } from "react-icons/md";
+import { FaGamepad } from "react-icons/fa";
 
 function Sidebar({ display }) {
   const navigate = useNavigate();
@@ -42,18 +44,23 @@ function Sidebar({ display }) {
           icon: <FaUserFriends />,
         },
         {
-          title: "Super Stockist",
-          path: "/manage/super-stockist",
-          icon: <FaUserFriends />,
-        },
-        {
           title: "Admin",
           path: "/manage/admin",
           icon: <FaUserFriends />,
         },
         {
+          title: "Super Stockist",
+          path: "/manage/super-stockist",
+          icon: <FaUserFriends />,
+        },
+        {
           title: "Stockist",
           path: "/manage/stockist",
+          icon: <FaUserFriends />,
+        },
+        {
+          title: "Agent",
+          path: "/manage/agent",
           icon: <FaUserFriends />,
         },
         {
@@ -65,24 +72,26 @@ function Sidebar({ display }) {
       icon: <RiAdminFill />,
     },
     {
-      title: "Live Matches",
-      path: "/live-matches",
-      icon: <MdGames />,
-    },
-    {
-      title: "Completed Matches",
-      path: "/completed-matches",
-      icon: <MdDoneAll />,
+      title: "Matches",
+      isExpandable: true,
+      options: [
+        {
+          title: "Live Matches",
+          path: "/live-matches",
+          icon: <MdGames />,
+        },
+        {
+          title: "Completed Matches",
+          path: "/completed-matches",
+          icon: <MdDoneAll />,
+        },
+      ],
+      icon: <FaGamepad />,
     },
     {
       title: "Casino Profit Loss",
       path: "/casino-report",
       icon: <GiProfit />,
-    },
-    {
-      title: "Block Sports",
-      path: "/block-sports",
-      icon: <MdBlock />,
     },
     {
       title: "Manage Clients",
@@ -106,11 +115,7 @@ function Sidebar({ display }) {
       ],
       icon: <MdManageAccounts />,
     },
-    {
-      title: "Manage Password",
-      path: "/manage-password",
-      icon: <TbPasswordMobilePhone />,
-    },
+   
     {
       title: "Language",
       path: "/language",
@@ -130,6 +135,23 @@ function Sidebar({ display }) {
           path: "/ledger/company-ledger",
           icon: <FaAddressBook />,
         },
+      ],
+      icon: <RiBillFill />,
+    },
+    {
+      title: "Setting",
+      isExpandable: true,
+      options: [
+        {
+          title: "Block Sports",
+          path: "/block-sports",
+          icon: <MdBlock />,
+        },
+        {
+          title: "Manage Password",
+          path: "/manage-password",
+          icon: <TbPasswordMobilePhone />,
+        },
         {
           title: "My Statement",
           path: "/ledger/my-statement",
@@ -141,8 +163,8 @@ function Sidebar({ display }) {
           icon: <GiProfit />,
         },
       ],
-      icon: <RiBillFill />,
-    },
+      icon: <MdOutlineSettings />,
+    }
   ];
 
   const SideOption = (item) => {
@@ -168,7 +190,7 @@ function Sidebar({ display }) {
               transition: "all 0.1s ease",
               flex: 1,
               transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
-            }}
+            }} 
           >
             {item.isExpandable && <KeyboardArrowDown />}
           </div>

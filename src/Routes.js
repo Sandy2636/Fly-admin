@@ -24,6 +24,7 @@ import SuperAdmin from "./Pages/Manage/SuperAdmin/SuperAdmin";
 import Admin from "./Pages/Manage/Admin/Admin";
 import Login from "./Pages/Login/Login";
 import Cookies from "js-cookie";
+import Agent from "./Pages/Manage/Agent/Agent";
 
 function AppRoutes() {
   const navigate = useNavigate();
@@ -58,6 +59,10 @@ function AppRoutes() {
         <Route
           path="/manage/stockist"
           element={<HomeLayout child={<ManageStockist />} />}
+        ></Route>
+        <Route
+          path="/manage/agent"
+          element={<HomeLayout child={<Agent />} />}
         ></Route>
         <Route
           path="/manage/user"

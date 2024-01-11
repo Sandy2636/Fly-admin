@@ -4,7 +4,8 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { IoMdOpen } from "react-icons/io";
+import { MdLogout } from "react-icons/md";
 import "./homeLayout.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -55,8 +56,8 @@ function HomeLayout(props) {
             </div>
           </div>
           <div className="nav_options">
-            <button className="navlink">flybet9.com</button>
-            <button className="navlink">Sign out</button>
+            <button className="navlink" style={{backgroundColor:"#8D8D8D", color:'white',border:'none',borderRadius:"7px",marginRight:'15px'}}>flybet9.com <IoMdOpen/> </button>
+            <button className="navlink" style={{backgroundColor:"#735cff",color:"white",border:'none',borderRadius:"7px"}}>Sign out <MdLogout/></button>
           </div>
         </div>
         <BreadCrumbs />
