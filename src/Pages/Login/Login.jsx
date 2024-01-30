@@ -20,6 +20,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    var isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
+    if(isUserLoggedIn){
+      navigate("/")
+    }
     generateCaptcha();
   }, []);
 

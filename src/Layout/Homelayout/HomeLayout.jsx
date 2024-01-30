@@ -25,6 +25,12 @@ function HomeLayout(props) {
     setOpen(false);
   };
 
+  const signOut = () => {
+    // localStorage.removeItem("isUserLoggedIn");
+    localStorage.clear();
+    navigate("/login")
+  }
+
   return (
     <div className="homeLayoutContainer">
       <Sidebar />
@@ -57,7 +63,7 @@ function HomeLayout(props) {
           </div>
           <div className="nav_options">
             <button className="navlink" style={{backgroundColor:"#8D8D8D", color:'white',border:'none',borderRadius:"7px",marginRight:'15px'}}>flybet9.com <IoMdOpen/> </button>
-            <button className="navlink" style={{backgroundColor:"#735cff",color:"white",border:'none',borderRadius:"7px"}}>Sign out <MdLogout/></button>
+            <button className="navlink" style={{backgroundColor:"#735cff",color:"white",border:'none',borderRadius:"7px"}} onClick={signOut}>Sign out <MdLogout/></button>
           </div>
         </div>
         <BreadCrumbs />

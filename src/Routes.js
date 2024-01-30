@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes,useNavigate  } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import HomeLayout from "./Layout/Homelayout/HomeLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import LiveMatches from "./Pages/LiveMatches/LiveMatches";
@@ -25,25 +25,25 @@ import Admin from "./Pages/Manage/Admin/Admin";
 import Login from "./Pages/Login/Login";
 import Cookies from "js-cookie";
 import Agent from "./Pages/Manage/Agent/Agent";
+import NotFound from "./Pages/NotFound/NotFound";
 
 function AppRoutes() {
   const navigate = useNavigate();
-  // const isTokenPresent = Cookies.get('jwtToken') !== undefined;
-  // useEffect(() => {
-  //   if (!isTokenPresent) {
-  //     navigate("/login");
-  //   }
-  // },[])
-  
-   
+
   return (
     <div>
+      <PrivateRoutes />
+    </div>
+  );
+}
+
+const PrivateRoutes = () => {
+  const navigate = useNavigate();
+  if (Cookies.get("jwtToken") && localStorage.getItem("isUserLoggedIn")) {
+    return (
       <Routes>
         <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
-        <Route
-          path="/login"
-          element={<Login/>}
-        ></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route
           path="/manage/super-admin"
           element={<HomeLayout child={<SuperAdmin />} />}
@@ -74,7 +74,7 @@ function AppRoutes() {
         ></Route>
         <Route
           path="/completed-matches"
-          element={<HomeLayout child={<CompletedMatches/>} />}
+          element={<HomeLayout child={<CompletedMatches />} />}
         ></Route>
         <Route
           path="/casino-report"
@@ -98,7 +98,7 @@ function AppRoutes() {
         ></Route>
         <Route
           path="/language"
-          element={<HomeLayout child={<Language/>} />}
+          element={<HomeLayout child={<Language />} />}
         ></Route>
         <Route
           path="/manage-password"
@@ -120,13 +120,19 @@ function AppRoutes() {
           path="/ledger/profit-loss"
           element={<HomeLayout child={<ProfitAndLoss />} />}
         ></Route>
-         <Route
+        <Route
           path="/manage/:id/create-user"
-          element={<HomeLayout child={<CreateUser/>} />}
+          element={<HomeLayout child={<CreateUser />} />}
         ></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
-    </div>
-  );
-}
-
+    );
+  } else {
+    return (
+      <Routes>
+        <Route path="*" element={<Login />} />;
+      </Routes>
+    );
+  }
+};
 export default AppRoutes;

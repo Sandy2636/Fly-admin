@@ -38,3 +38,9 @@
 label{
 margin: 8px 0px 0px 0px;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 30px 30px 30px 30px #bebebe inset !important;
+}

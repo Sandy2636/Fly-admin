@@ -6,14 +6,15 @@ export default function CreateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
-  const [fixLimit, setFixLimit] = useState("");
-  const [myMatchShare, setMyMatchShare] = useState("");
-  const [otherMatchShare, setOtherMatchShare] = useState("");
-  const [matchCommission, setMatchCommission] = useState("");
-  const [sessionCommission, setSessionCommission] = useState("");
+  const [fix_limit, setfix_limit] = useState("");
+  const [my_match_share, setmy_match_share] = useState("");
+  const [other_match_share, setother_match_share] = useState("");
+  const [match_commission, setmatch_commission] = useState("");
+  const [session_commission, setsession_commission] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user_type, setuseType] = useState("");
+  const [parent_id, setparent_id] = useState(localStorage.getItem("userName"))
   const { id } = useParams();
 
   useEffect(() => {
@@ -33,7 +34,8 @@ export default function CreateUser() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
+    if(password==confirmPassword){
+      axios
       .post("/users/add-user", {
         username,
         email: "notRequied@gmail.com",
@@ -42,10 +44,21 @@ export default function CreateUser() {
         user_type,
         first_name,
         last_name,
+        fix_limit,
+        parent_id,
+        my_match_share,
+        match_commission,
+        other_match_share,
+        session_commission,
+
       })
       .then((data) => {console.log(data);}).catch((error)=>{
         console.log(error);
       });
+    }else{
+      alert("Password and Confirm password not matched ")
+    }
+    
   };
   return (
     <div
@@ -68,6 +81,7 @@ export default function CreateUser() {
             type="text"
             id="userName"
             onChange={handleChange(setUserName)}
+            required
           />
         </div>
 
@@ -82,6 +96,7 @@ export default function CreateUser() {
             type="text"
             id="firstName"
             onChange={handleChange(setFirstName)}
+            required
           />
         </div>
 
@@ -93,6 +108,7 @@ export default function CreateUser() {
             type="text"
             id="lastName"
             onChange={handleChange(setLastName)}
+            required
           />
         </div>
 
@@ -103,7 +119,8 @@ export default function CreateUser() {
           <input
             type="text"
             id="fixLimit"
-            onChange={handleChange(setFixLimit)}
+            onChange={handleChange(setfix_limit)}
+            required
           />
         </div>
 
@@ -117,7 +134,8 @@ export default function CreateUser() {
           <input
             type="text"
             id="myMatchShare"
-            onChange={handleChange(setMyMatchShare)}
+            onChange={handleChange(setmy_match_share)}
+            required
           />
         </div>
 
@@ -131,7 +149,8 @@ export default function CreateUser() {
           <input
             type="text"
             id="otherMatchShare"
-            onChange={handleChange(setOtherMatchShare)}
+            onChange={handleChange(setother_match_share)}
+            required
           />
         </div>
 
@@ -145,7 +164,8 @@ export default function CreateUser() {
           <input
             type="text"
             id="matchCommission"
-            onChange={handleChange(setMatchCommission)}
+            onChange={handleChange(setmatch_commission)}
+            required
           />
         </div>
 
@@ -159,7 +179,8 @@ export default function CreateUser() {
           <input
             type="text"
             id="sessionCommission"
-            onChange={handleChange(setSessionCommission)}
+            onChange={handleChange(setsession_commission)}
+            required
           />
         </div>
 
@@ -171,6 +192,7 @@ export default function CreateUser() {
             type="password"
             id="password"
             onChange={handleChange(setPassword)}
+            required
           />
         </div>
 
@@ -185,6 +207,7 @@ export default function CreateUser() {
             type="password"
             id="confirmPassword"
             onChange={handleChange(setConfirmPassword)}
+            required
           />
         </div>
 
