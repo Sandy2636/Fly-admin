@@ -31,6 +31,7 @@
     "react-router-dom": "^6.21.0",
     "react-scripts": "5.0.1",
     "react-to-pdf": "^1.0.1",
+    "react-toggle-button": "^2.2.0",
     "sass": "^1.69.5",
     "sha256": "^0.2.0",
     "stream-browserify": "^3.0.0",
@@ -68,5 +69,5 @@
     "gh-pages": "^6.1.0",
     "webpack": "^5.89.0"
   },
-  "proxy": "https://api.flybet9.com/api"
+  "proxy": "http://localhost:8800/api"
 }

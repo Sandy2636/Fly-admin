@@ -26,6 +26,7 @@ import Login from "./Pages/Login/Login";
 import Cookies from "js-cookie";
 import Agent from "./Pages/Manage/Agent/Agent";
 import NotFound from "./Pages/NotFound/NotFound";
+import UpdateUser from "./Pages/UpdateUser/UpdateUser";
 
 function AppRoutes() {
   const navigate = useNavigate();
@@ -123,6 +124,10 @@ const PrivateRoutes = () => {
         <Route
           path="/manage/:id/create-user"
           element={<HomeLayout child={<CreateUser />} />}
+        ></Route>
+         <Route
+          path="/manage/update-user/:user"
+          element={<HomeLayout child={<UpdateUser />} />}
         ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
