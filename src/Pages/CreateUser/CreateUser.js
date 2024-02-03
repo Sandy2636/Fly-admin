@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 import axios from "../../authAxios";
 import sha256 from "sha256";
+import Swal from 'sweetalert2';
 export default function CreateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -14,25 +15,30 @@ export default function CreateUser() {
   const [session_commission, setsession_commission] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [parent_match_share, setparent_match_share] = useState();
+  // const [, set] = useState(second)
   // const [user_type, setuseType] = useState("");
   const [parent_id, setparent_id] = useState(localStorage.getItem("userName"));
   const { user_type } = useParams();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const capitalizeFirstLetter = (input
-  //     return input
-  //       .split("-")
-  //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-  //       .join(" ");
-  //   };
-  //   // setuseType(user_type);
-  // }, [user_type]);
+  useEffect(() => {
+    console.log(parent_id);
+    axios.get("/users/get-user/",{params:{username:parent_id}}).then((res)=>{
+          setparent_match_share(res.data.user.my_match_share); 
+         console.log(res);
+    }).catch((err)=>{
+          console.log(err);
+    })
+  }, [])
+  
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("other match share",other_match_share);
     if (password == confirmPassword) {
       axios
         .post("/users/add-user", {
@@ -46,14 +52,22 @@ export default function CreateUser() {
           parent_id,
           my_match_share,
           match_commission,
-          other_match_share,
+          other_match_share : parent_match_share - my_match_share,
           session_commission,
         })
         .then((data) => {
           console.log(data);
+          Swal.fire("SweetAlert2 is working!");
+          navigate(-1);
         })
         .catch((error) => {
-          console.log(error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });
+          
         });
     } else {
       alert("Password and Confirm password not matched ");
@@ -116,6 +130,7 @@ export default function CreateUser() {
             }}
             type="text"
             id="firstName"
+            value={first_name}
             onChange={handleChange(setFirstName)}
             required
           />
@@ -135,6 +150,7 @@ export default function CreateUser() {
               outline: "none",
             }}
             type="text"
+            value={last_name}
             id="lastName"
             onChange={handleChange(setLastName)}
             required
@@ -154,7 +170,8 @@ export default function CreateUser() {
               border: "none",
               outline: "none",
             }}
-            type="text"
+            type='number'
+            value={fix_limit}
             id="fixLimit"
             onChange={handleChange(setfix_limit)}
             required
@@ -174,11 +191,20 @@ export default function CreateUser() {
               border: "none",
               outline: "none",
             }}
-            type="text"
+            type="number"
             id="myMatchShare"
-            onChange={handleChange(setmy_match_share)}
+            max={parent_match_share}
+            value={my_match_share}
+            onChange={(e) => {
+              if(e.target.value <= parent_match_share){
+                setmy_match_share(e.target.value)
+              }else{
+                setmy_match_share(parent_match_share)
+              }
+            }}
             required
           />
+          <p style={{fontSize:"14px",color:"gray"}}>Note:Range <span style={{fontWeight:'800'}}>0</span>  to <span style={{fontWeight:'800',}}>{parent_match_share}</span></p>
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -193,10 +219,13 @@ export default function CreateUser() {
               width: "100%",
               border: "none",
               outline: "none",
+              color:'white'
             }}
-            type="text"
+            type="number"
+            disabled
             id="otherMatchShare"
-            onChange={handleChange(setother_match_share)}
+            value={parent_match_share - my_match_share}
+            // onChange={()=>{setother_match_share(parent_match_share-my_match_share)}}
             required
           />
         </div>
@@ -214,8 +243,9 @@ export default function CreateUser() {
               border: "none",
               outline: "none",
             }}
-            type="text"
+            type="number"
             id="matchCommission"
+            value={match_commission}
             onChange={handleChange(setmatch_commission)}
             required
           />
@@ -234,8 +264,9 @@ export default function CreateUser() {
               border: "none",
               outline: "none",
             }}
-            type="text"
+            type="number"
             id="sessionCommission"
+            value={session_commission}
             onChange={handleChange(setsession_commission)}
             required
           />
@@ -256,6 +287,7 @@ export default function CreateUser() {
             }}
             type="password"
             id="password"
+            value={password}
             onChange={handleChange(setPassword)}
             required
           />
@@ -275,6 +307,7 @@ export default function CreateUser() {
               outline: "none",
             }}
             type="password"
+            value={confirmPassword}
             id="confirmPassword"
             onChange={handleChange(setConfirmPassword)}
             required
