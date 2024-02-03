@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./CreateUser.css";
-import axios from "axios";
+import axios from "../../authAxios";
 export default function CreateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -14,7 +14,7 @@ export default function CreateUser() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user_type, setuseType] = useState("");
-  const [parent_id, setparent_id] = useState(localStorage.getItem("userName"))
+  const [parent_id, setparent_id] = useState(localStorage.getItem("userName"));
   const { id } = useParams();
 
   useEffect(() => {
@@ -34,31 +34,32 @@ export default function CreateUser() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(password==confirmPassword){
+    if (password == confirmPassword) {
       axios
-      .post("/users/add-user", {
-        username,
-        email: "notRequied@gmail.com",
-        password,
-        credits: "0",
-        user_type,
-        first_name,
-        last_name,
-        fix_limit,
-        parent_id,
-        my_match_share,
-        match_commission,
-        other_match_share,
-        session_commission,
-
-      })
-      .then((data) => {console.log(data);}).catch((error)=>{
-        console.log(error);
-      });
-    }else{
-      alert("Password and Confirm password not matched ")
+        .post("/users/add-user", {
+          username,
+          email: "notRequied@gmail.com",
+          password,
+          credits: "0",
+          user_type,
+          first_name,
+          last_name,
+          fix_limit,
+          parent_id,
+          my_match_share,
+          match_commission,
+          other_match_share,
+          session_commission,
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Password and Confirm password not matched ");
     }
-    
   };
   return (
     <div

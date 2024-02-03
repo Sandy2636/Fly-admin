@@ -6,7 +6,7 @@ import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaIcons, FaUserEdit } from "react-icons/fa";
-import axios from "axios";
+import axios from "../../../authAxios";
 const SuperAdmin = () => {
   const navigate = useNavigate();
   const params = useParams();

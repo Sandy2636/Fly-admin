@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import logo from "../../Assets/Logo.png";
 import { FaUser, FaKey } from "react-icons/fa";
 import { LuRefreshCcw } from "react-icons/lu";
-import axios from "axios";
+import axios from "../../authAxios";
 import "./Login.css";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +21,8 @@ const Login = () => {
 
   useEffect(() => {
     var isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
-    if(isUserLoggedIn){
-      navigate("/")
+    if (isUserLoggedIn) {
+      navigate("/");
     }
     generateCaptcha();
   }, []);
@@ -134,7 +134,7 @@ const Login = () => {
             <div className="inputBox">
               <span style={{ marginRight: "10px" }}>{<FaKey />}</span>{" "}
               <input
-                 className="loginInputs"
+                className="loginInputs"
                 type="password"
                 id="password"
                 value={password}
@@ -156,7 +156,7 @@ const Login = () => {
             </p>
             <div className="inputBox">
               <input
-                 className="loginInputs"
+                className="loginInputs"
                 style={{ textAlign: "center" }}
                 type="text"
                 id="captcha"

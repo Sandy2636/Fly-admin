@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./UpdateUser.css";
-import axios from "axios";
+import axios from "../../authAxios";
 import ToggleButton from "react-toggle-button";
 export default function UpdateUser() {
   const [username, setUserName] = useState("");
@@ -57,7 +57,16 @@ export default function UpdateUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put("/users/update-user", {first_name,last_name,fix_limit,match_commission,session_commission,agent_block,bet_block,_id})
+      .put("/users/update-user", {
+        first_name,
+        last_name,
+        fix_limit,
+        match_commission,
+        session_commission,
+        agent_block,
+        bet_block,
+        _id,
+      })
       .then((response) => {
         console.log(response);
       })
