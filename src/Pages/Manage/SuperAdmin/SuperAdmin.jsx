@@ -6,30 +6,31 @@ import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaIcons, FaUserEdit } from "react-icons/fa";
-import axios from "axios";
+import axios from "../../../authAxios";
 const SuperAdmin = () => {
-
   const navigate = useNavigate();
   const params = useParams();
   const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] =
-    useState(false);
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [colData, setColData] = useState([]);
   const [data, setdata] = useState([]);
 
   const editBtnClick = (_id, row) => {
-    navigate(`/manage/update-user/${_id}`)
+    navigate(`/manage/update-user/${_id}`);
     console.log(_id);
     console.log(row);
   };
   React.useEffect(() => {
     const fetchData = async () => {
-        await axios.get("/users/get-users", {
-          params:{user_type: "Super Admin"}
-        }).then((result) => {
-           setdata(result.data.data);
-          console.log("xyz",result.data.data)
-        }).catch((err) => {
+      await axios
+        .get("/users/get-users", {
+          params: { user_type: "Super Admin" },
+        })
+        .then((result) => {
+          setdata(result.data.data);
+          console.log("xyz", result.data.data);
+        })
+        .catch((err) => {
           console.log(err);
         });
     };
@@ -59,7 +60,7 @@ const SuperAdmin = () => {
       return result;
     }
     setColData(filterData(filterText));
-  }, [filterText,]);
+  }, [filterText]);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
