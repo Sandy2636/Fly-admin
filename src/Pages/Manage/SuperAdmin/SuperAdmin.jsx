@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "jspdf-autotable";
 import ClientList from "../../../Components/ClientList/ClientList";
 import Table from "../../../Components/Table/Table";
@@ -8,45 +8,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaIcons, FaUserEdit } from "react-icons/fa";
 import axios from "axios";
 const SuperAdmin = () => {
-
   const navigate = useNavigate();
   const params = useParams();
   const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] =
-    useState(false);
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [colData, setColData] = useState([]);
   const [data, setdata] = useState([]);
 
   const editBtnClick = (_id, row) => {
-    navigate(`/manage/update-user/${_id}`)
+    navigate(`/manage/update-user/${_id}`);
     console.log(_id);
     console.log(row);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
-        await axios.get("/users/get-users", {
-          params:{user_type: "Super Admin"}
-        }).then((result) => {
-           setdata(result.data.data);
-          console.log("xyz",result.data.data)
-        }).catch((err) => {
-          console.log(err);
+      try {
+        const result = await axios.get("/users/get-users", {
+          params: { user_type: "Super Admin" },
         });
+  
+        setdata(result.data.data);
+        console.log(data)
+        setColData(filterData(filterText));
+      } catch (err) {
+        console.error(err);
+      }
     };
+  
     fetchData();
-
-    // const data = [
-    //   {
-    //     id: 1,
-    //     username: "user1",
-    //     name: "John Doe",
-    //     fix_limit: 10000,
-    //     my_share: 5000,
-    //     max_share: 8000,
-    //     exposure: 3000,
-    //     actions: "Edit",
-    //   },
-    // ];
+    
     function filterData(searchQuery) {
       const query = searchQuery.toLowerCase();
       const result = data?.filter((user) => {
@@ -59,7 +49,7 @@ const SuperAdmin = () => {
       return result;
     }
     setColData(filterData(filterText));
-  }, [filterText,]);
+  }, [filterText]);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -122,7 +112,7 @@ const SuperAdmin = () => {
     ),
     []
   );
-  return (
+ return (
     <div>
       {/* <div style={{display:'flex'}}>
         <DownloadPdf
