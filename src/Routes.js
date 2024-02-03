@@ -122,10 +122,10 @@ const PrivateRoutes = () => {
           element={<HomeLayout child={<ProfitAndLoss />} />}
         ></Route>
         <Route
-          path="/manage/:id/create-user"
+          path="/manage/:user_type/create-user"
           element={<HomeLayout child={<CreateUser />} />}
         ></Route>
-         <Route
+        <Route
           path="/manage/update-user/:user"
           element={<HomeLayout child={<UpdateUser />} />}
         ></Route>

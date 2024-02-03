@@ -40,7 +40,9 @@ const Login = () => {
         username,
         password: sha256(password),
       });
-
+      localStorage.setItem("authToken", response.data.accessToken);
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + response.data.accessToken;
       storeUserCredentials(response.data);
       navigate("/");
     } catch (error) {

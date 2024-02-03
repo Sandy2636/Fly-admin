@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./CreateUser.css";
 import axios from "../../authAxios";
+import sha256 from "sha256";
 export default function CreateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -13,21 +14,19 @@ export default function CreateUser() {
   const [session_commission, setsession_commission] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [user_type, setuseType] = useState("");
+  // const [user_type, setuseType] = useState("");
   const [parent_id, setparent_id] = useState(localStorage.getItem("userName"));
-  const { id } = useParams();
+  const { user_type } = useParams();
 
-  useEffect(() => {
-    const capitalizeFirstLetter = (input) => {
-      return input
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
-    };
-
-    const user_type = capitalizeFirstLetter(id);
-    setuseType(user_type);
-  }, [id]);
+  // useEffect(() => {
+  //   const capitalizeFirstLetter = (input
+  //     return input
+  //       .split("-")
+  //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  //       .join(" ");
+  //   };
+  //   // setuseType(user_type);
+  // }, [user_type]);
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
@@ -38,10 +37,9 @@ export default function CreateUser() {
       axios
         .post("/users/add-user", {
           username,
-          email: "notRequied@gmail.com",
-          password,
+          password: sha256(password),
           credits: "0",
-          user_type,
+          user_type: user_type.replace(/-/g, "_"),
           first_name,
           last_name,
           fix_limit,
@@ -61,6 +59,10 @@ export default function CreateUser() {
       alert("Password and Confirm password not matched ");
     }
   };
+  const userTypeShow = user_type
+    .split("-")
+    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+    .join(" ");
   return (
     <div
       style={{
@@ -69,16 +71,29 @@ export default function CreateUser() {
         borderRadius: "10px",
       }}
     >
-      <h5 style={{ textAlign: "center" }}>Create new {user_type}</h5>
+      <h5 style={{ textAlign: "center" }}>Create new {userTypeShow}</h5>
       <form
         onSubmit={handleSubmit}
-        style={{ width: "100%", maxWidth: "400px", margin: "auto" }}
+        style={{
+          width: "100%",
+          maxWidth: "400px",
+          margin: "auto",
+          padding: "16px",
+        }}
       >
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="userName">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="userName"
+          >
             User Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="userName"
             onChange={handleChange(setUserName)}
@@ -88,12 +103,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="firstName"
           >
             First Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="firstName"
             onChange={handleChange(setFirstName)}
@@ -102,10 +122,18 @@ export default function CreateUser() {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="lastName">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="lastName"
+          >
             Last Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="lastName"
             onChange={handleChange(setLastName)}
@@ -114,10 +142,18 @@ export default function CreateUser() {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="fixLimit">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="fixLimit"
+          >
             Fix Limit
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="fixLimit"
             onChange={handleChange(setfix_limit)}
@@ -127,12 +163,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="myMatchShare"
           >
             My Match Share
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="myMatchShare"
             onChange={handleChange(setmy_match_share)}
@@ -142,12 +183,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="otherMatchShare"
           >
-            {user_type} Match Share
+            {userTypeShow} Match Share
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="otherMatchShare"
             onChange={handleChange(setother_match_share)}
@@ -157,12 +203,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="matchCommission"
           >
-            {user_type} Match Commission
+            {userTypeShow} Match Commission
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="matchCommission"
             onChange={handleChange(setmatch_commission)}
@@ -172,12 +223,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="sessionCommission"
           >
-            {user_type} Session Commission
+            {userTypeShow} Session Commission
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="sessionCommission"
             onChange={handleChange(setsession_commission)}
@@ -186,10 +242,18 @@ export default function CreateUser() {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="password">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="password"
+          >
             Password
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="password"
             id="password"
             onChange={handleChange(setPassword)}
@@ -199,12 +263,17 @@ export default function CreateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="confirmPassword"
           >
             Confirm Password
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="password"
             id="confirmPassword"
             onChange={handleChange(setConfirmPassword)}

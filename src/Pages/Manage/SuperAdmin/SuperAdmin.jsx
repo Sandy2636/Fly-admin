@@ -24,10 +24,11 @@ const SuperAdmin = () => {
     const fetchData = async () => {
       await axios
         .get("/users/get-users", {
-          params: { user_type: "Super Admin" },
+          params: { user_type: "super_admin" },
         })
         .then((result) => {
           setdata(result.data.data);
+          setColData(result.data.data);
           console.log("xyz", result.data.data);
         })
         .catch((err) => {
@@ -35,19 +36,6 @@ const SuperAdmin = () => {
         });
     };
     fetchData();
-
-    // const data = [
-    //   {
-    //     id: 1,
-    //     username: "user1",
-    //     name: "John Doe",
-    //     fix_limit: 10000,
-    //     my_share: 5000,
-    //     max_share: 8000,
-    //     exposure: 3000,
-    //     actions: "Edit",
-    //   },
-    // ];
     function filterData(searchQuery) {
       const query = searchQuery.toLowerCase();
       const result = data?.filter((user) => {

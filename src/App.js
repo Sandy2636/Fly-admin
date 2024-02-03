@@ -1,8 +1,7 @@
 import logo from "./logo.svg";
 import "./app.scss";
 import Routes from "./Routes";
-import { AuthProvider } from "./Context/AuthContext";
-import axios from "axios";
+import axios from "./authAxios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -11,6 +10,7 @@ function App() {
   const navigate = useNavigate();
   useEffect(() => {
     setToken(Cookies.get("jwtToken"));
+    console.log("Token  => ", token, "Cookie =>", Cookies.get("jwtToken"));
   }, [Cookies.get("jwtToken")]);
   console.log(token);
   axios.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -31,6 +31,5 @@ function App() {
 
   return <Routes />;
 }
-
 
 export default App;
