@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "jspdf-autotable";
 import ClientList from "../../../Components/ClientList/ClientList";
 import Table from "../../../Components/Table/Table";
@@ -20,7 +20,7 @@ const SuperAdmin = () => {
     console.log(_id);
     console.log(row);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       await axios
         .get("/users/get-users", {
@@ -35,6 +35,7 @@ const SuperAdmin = () => {
           console.log(err);
         });
     };
+
     fetchData();
     function filterData(searchQuery) {
       const query = searchQuery.toLowerCase();
