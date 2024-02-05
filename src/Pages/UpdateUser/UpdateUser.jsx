@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./UpdateUser.css";
 import axios from "../../authAxios";
 import ToggleButton from "react-toggle-button";
+import sha256 from "sha256";
+import Swal from "sweetalert2";
 export default function UpdateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -43,14 +45,17 @@ export default function UpdateUser() {
           set_id(result.data.user._id);
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            // footer: '<a href="#">Why do I have this issue?</a>'
+          });
+          navigate(-1);
         });
     };
     getUserData();
   }, [user]);
-  const cancleClick = () => {
-    navigate(-1);
-  };
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
   };
@@ -65,15 +70,27 @@ export default function UpdateUser() {
         session_commission,
         agent_block,
         bet_block,
+        password: sha256(password),
         _id,
       })
       .then((response) => {
-        console.log(response);
+        Swal.fire("User update Successfully");
+        navigate(-1);
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
+        navigate(-1);
       });
   };
+  function cancalClick() {
+    console.log("cancal");
+    navigate(-1);
+  }
   return (
     <div
       style={{
@@ -88,10 +105,18 @@ export default function UpdateUser() {
         style={{ width: "100%", maxWidth: "400px", margin: "auto" }}
       >
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="userName">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="userName"
+          >
             User Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="userName"
             value={username}
@@ -104,12 +129,17 @@ export default function UpdateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="firstName"
           >
             First Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="firstName"
             value={first_name}
@@ -119,10 +149,18 @@ export default function UpdateUser() {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="lastName">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="lastName"
+          >
             Last Name
           </label>
           <input
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
             type="text"
             id="lastName"
             value={last_name}
@@ -132,11 +170,19 @@ export default function UpdateUser() {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="fixLimit">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="fixLimit"
+          >
             Current Limit
           </label>
           <input
-            type="text"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
+            type="number"
             id="fixLimit"
             value={fix_limit}
             onChange={handleChange(setfix_limit)}
@@ -146,13 +192,19 @@ export default function UpdateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="myMatchShare"
           >
             My Match Share
           </label>
           <input
-            type="text"
+            style={{
+              width: "100%",
+              border: "none",
+              color: "white",
+              outline: "none",
+            }}
+            type="number"
             id="myMatchShare"
             value={my_match_share}
             disabled
@@ -164,13 +216,19 @@ export default function UpdateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="otherMatchShare"
           >
             {user} Match Share
           </label>
           <input
-            type="text"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+              color: "white",
+            }}
+            type="number"
             id="otherMatchShare"
             value={other_match_share}
             readOnly
@@ -182,13 +240,18 @@ export default function UpdateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="matchCommission"
           >
             {user} Match Commission
           </label>
           <input
-            type="text"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
+            type="number"
             value={match_commission}
             id="matchCommission"
             onChange={handleChange(setmatch_commission)}
@@ -198,13 +261,18 @@ export default function UpdateUser() {
 
         <div style={{ marginBottom: "10px" }}>
           <label
-            style={{ width: "40%", minWidth: "120px" }}
+            style={{ width: "100%", minWidth: "120px" }}
             htmlFor="sessionCommission"
           >
             {user} Session Commission
           </label>
           <input
-            type="text"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+            }}
+            type="number"
             id="sessionCommission"
             value={session_commission}
             onChange={handleChange(setsession_commission)}
@@ -213,7 +281,10 @@ export default function UpdateUser() {
         </div>
 
         <div style={{ marginBottom: "10px", display: "flex" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="password">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="password"
+          >
             User Block
           </label>
           <ToggleButton
@@ -227,47 +298,31 @@ export default function UpdateUser() {
         </div>
 
         <div style={{ marginBottom: "10px", display: "flex" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="password">
+          <label
+            style={{ width: "100%", minWidth: "120px" }}
+            htmlFor="password"
+          >
             Bet Block
           </label>
-          <ToggleButton
-            value={bet_block}
-            thumbStyle={borderRadiusStyle}
-            trackStyle={borderRadiusStyle}
-            onToggle={() => {
-              setbet_block(!bet_block);
-            }}
-          />
+          <div>
+            <ToggleButton
+              value={bet_block}
+              thumbStyle={borderRadiusStyle}
+              trackStyle={borderRadiusStyle}
+              onToggle={() => {
+                setbet_block(!bet_block);
+              }}
+            />
+          </div>
         </div>
-        {/* <div style={{ marginBottom: "10px" }}>
-          <label style={{ width: "40%", minWidth: "120px" }} htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            onChange={handleChange(setPassword)}
-            required
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label
-            style={{ width: "40%", minWidth: "120px" }}
-            htmlFor="confirmPassword"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            onChange={handleChange(setConfirmPassword)}
-            required
-          />
-        </div> */}
-
         <div style={{ display: "flex", justifyContent: "start" }}>
-          <button style={{ marginRight: "10px" }} onClick={cancleClick}>
-            Cancle
+          <button
+            style={{ marginRight: "10px" }}
+            onClick={() => {
+              cancalClick();
+            }}
+          >
+            Cancal
           </button>
           <button
             type="submit"

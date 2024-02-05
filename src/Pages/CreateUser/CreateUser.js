@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 import axios from "../../authAxios";
 import sha256 from "sha256";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default function CreateUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -24,21 +24,24 @@ export default function CreateUser() {
 
   useEffect(() => {
     console.log(parent_id);
-    axios.get("/users/get-user/",{params:{username:parent_id}}).then((res)=>{
-          setparent_match_share(res.data.user.my_match_share); 
-         console.log(res);
-    }).catch((err)=>{
-          console.log(err);
-    })
-  }, [])
-  
+    axios
+      .get("/users/get-user/", { params: { username: parent_id } })
+      .then((res) => {
+        setparent_match_share(res.data.user.my_match_share);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("other match share",other_match_share);
+    console.log("other match share", other_match_share);
+    console.log("my match share", my_match_share);
     if (password == confirmPassword) {
       axios
         .post("/users/add-user", {
@@ -52,31 +55,46 @@ export default function CreateUser() {
           parent_id,
           my_match_share,
           match_commission,
-          other_match_share : parent_match_share - my_match_share,
+          other_match_share: parent_match_share - my_match_share,
           session_commission,
         })
-        .then((data) => {
-          console.log(data);
-          Swal.fire("SweetAlert2 is working!");
-          navigate(-1);
+        .then((res) => {
+          if (res.data.status) {
+            Swal.fire("User Create successfully!");
+            navigate(-1);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+              // footer: '<a href="#">Why do I have this issue?</a>'
+            });
+            navigate(-1);
+          }
         })
         .catch((error) => {
+          console.log(error);
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
-            footer: '<a href="#">Why do I have this issue?</a>'
+            // footer: '<a href="#">Why do I have this issue?</a>'
           });
-          
+          navigate(-1);
         });
     } else {
       alert("Password and Confirm password not matched ");
     }
   };
+  function cancalClick(){
+       console.log("cancal")
+       navigate(-1);
+  }
   const userTypeShow = user_type
     .split("-")
     .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
     .join(" ");
+
   return (
     <div
       style={{
@@ -170,7 +188,7 @@ export default function CreateUser() {
               border: "none",
               outline: "none",
             }}
-            type='number'
+            type="number"
             value={fix_limit}
             id="fixLimit"
             onChange={handleChange(setfix_limit)}
@@ -196,15 +214,18 @@ export default function CreateUser() {
             max={parent_match_share}
             value={my_match_share}
             onChange={(e) => {
-              if(e.target.value <= parent_match_share){
-                setmy_match_share(e.target.value)
-              }else{
-                setmy_match_share(parent_match_share)
+              if (e.target.value <= parent_match_share) {
+                setmy_match_share(e.target.value);
+              } else {
+                setmy_match_share(parent_match_share);
               }
             }}
             required
           />
-          <p style={{fontSize:"14px",color:"gray"}}>Note:Range <span style={{fontWeight:'800'}}>0</span>  to <span style={{fontWeight:'800',}}>{parent_match_share}</span></p>
+          <p style={{ fontSize: "14px", color: "gray" }}>
+           <span style={{fontWeight:"700"}}>Note</span>:Range <span style={{ fontWeight: "800" }}>0</span> to{" "}
+            <span style={{ fontWeight: "800" }}>{parent_match_share}</span>
+          </p>
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -219,7 +240,7 @@ export default function CreateUser() {
               width: "100%",
               border: "none",
               outline: "none",
-              color:'white'
+              color: "white",
             }}
             type="number"
             disabled
@@ -249,6 +270,10 @@ export default function CreateUser() {
             onChange={handleChange(setmatch_commission)}
             required
           />
+          <p style={{ fontSize: "14px", color: "gray" }}>
+            <span style={{ fontWeight: "700" }}>Note:</span>Match commission can
+            be set from 0 to <span style={{ fontWeight: "700" }}>2</span>
+          </p>
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -270,6 +295,10 @@ export default function CreateUser() {
             onChange={handleChange(setsession_commission)}
             required
           />
+          <p style={{ fontSize: "14px", color: "gray" }}>
+            <span style={{ fontWeight: "700" }}>Note:</span>Match commission can
+            be set from 0 to <span style={{ fontWeight: "700" }}>2</span>
+          </p>
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -315,7 +344,7 @@ export default function CreateUser() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "start" }}>
-          <button style={{ marginRight: "10px" }}>Cancle</button>
+          <button style={{ marginRight: "10px" }} onClick={()=>{cancalClick()}}>Cancal</button>
           <button
             type="submit"
             style={{

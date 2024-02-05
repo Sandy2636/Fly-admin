@@ -6,6 +6,7 @@ import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaIcons, FaUserEdit } from "react-icons/fa";
+import { TbPasswordUser } from "react-icons/tb";
 import axios from "../../../authAxios";
 const SuperAdmin = () => {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ const SuperAdmin = () => {
     console.log(_id);
     console.log(row);
   };
+  const changePassBtnClick =(_id,row)=>{
+    navigate(`/manage/change-password/${_id}`)
+  }
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -69,7 +73,7 @@ const SuperAdmin = () => {
     );
   }, [filterText, resetPaginationToggle]);
   const columns = [
-    { name: "ID", selector: (row) => row.id },
+    { name: "ID", selector: (row) => row._id },
     { name: "UserName", selector: (row) => row.username },
     { name: "Name", selector: (row) => row.first_name },
     { name: "FixLimit", selector: (row) => row.fix_limit },
@@ -79,8 +83,13 @@ const SuperAdmin = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div onClick={() => editBtnClick(row.username, row)}>
-          <FaUserEdit size={18} />
+        <div style={{display:'flex',justifyContent:"space-between"}}>
+          <div style={{margin:"0px 4px"}} onClick={() => editBtnClick(row.username, row)}>
+            <FaUserEdit size={18} />
+          </div>
+          <div  style={{margin:"0px 4px"}}  onClick={() => changePassBtnClick(row.username, row)}>
+            <TbPasswordUser size={18} />
+          </div>
         </div>
       ),
     },
