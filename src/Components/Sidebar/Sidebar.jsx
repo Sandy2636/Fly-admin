@@ -27,7 +27,7 @@ function Sidebar({ display }) {
   const handleListItemClick = (path) => {
     navigate(path);
   };
-
+  const userRole = localStorage.getItem('user_type')
   const SidebarOptionList = [
     {
       title: "Dashboard",
@@ -42,31 +42,37 @@ function Sidebar({ display }) {
           title: "Super Admin",
           path: "/manage/super-admin",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin"],
         },
         {
           title: "Admin",
           path: "/manage/admin",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin","super_admin"],
         },
         {
           title: "Super Stockist",
           path: "/manage/super-stockist",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin","super_admin","admin"],
         },
         {
           title: "Stockist",
           path: "/manage/stockist",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin","super_admin","admin","super_stockist"],
         },
         {
           title: "Agent",
           path: "/manage/agent",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin","super_admin","admin","super_stockist","stockist"],
         },
         {
           title: "User",
           path: "/manage/user",
           icon: <FaUserFriends />,
+          allowedRoles: ["supreme_admin","super_admin","admin","super_stockist","stockist","agent"],
         },
       ],
       icon: <RiAdminFill />,
@@ -166,9 +172,12 @@ function Sidebar({ display }) {
       icon: <MdOutlineSettings />,
     }
   ];
+  const isOptionVisible = (allowedRoles) =>
+    allowedRoles.includes(userRole);
 
   const SideOption = (item) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
+   
     return (
       <>
         <div
@@ -196,7 +205,7 @@ function Sidebar({ display }) {
           </div>
         </div>
 
-        {isExpanded && item.isExpandable && (
+        {/* {isExpanded && item.isExpandable && (
           <div style={{ marginLeft: 20 }}>
             {item.options.map((obj) => (
               <div
@@ -209,6 +218,24 @@ function Sidebar({ display }) {
                 </div>
               </div>
             ))}
+          </div>
+        )} */}
+
+{isExpanded && item.isExpandable && (
+          <div style={{ marginLeft: 20 }}>
+            {item.options
+              .filter((opt) => isOptionVisible(opt.allowedRoles))
+              .map((obj) => (
+                <div
+                  className="option"
+                  onClick={(e) => handleListItemClick(obj.path)}
+                >
+                  <div className="option_icon">{obj.icon}</div>
+                  <div className="option_text">
+                    <span className="option_text_span">{obj.title}</span>
+                  </div>
+                </div>
+              ))}
           </div>
         )}
       </>
