@@ -123,14 +123,6 @@ const SuperAdmin = () => {
   );
   return (
     <div>
-      {/* <div style={{display:'flex'}}>
-        <DownloadPdf
-          columns={columns}
-          data={colData}
-          tableName={"Super Stockist"}
-        />
-        <CSVGenerator columns={columns} data={colData} />
-      </div> */}
       <div>
         <Table
           data={colData}

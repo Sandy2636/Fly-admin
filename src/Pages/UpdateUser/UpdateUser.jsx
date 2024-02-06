@@ -14,8 +14,6 @@ export default function UpdateUser() {
   const [other_match_share, setother_match_share] = useState("");
   const [match_commission, setmatch_commission] = useState("");
   const [session_commission, setsession_commission] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [user_type, setuseType] = useState("");
   const [agent_block, setagent_block] = useState(false);
   const [bet_block, setbet_block] = useState(false);
@@ -70,7 +68,6 @@ export default function UpdateUser() {
         session_commission,
         agent_block,
         bet_block,
-        password: sha256(password),
         _id,
       })
       .then((response) => {

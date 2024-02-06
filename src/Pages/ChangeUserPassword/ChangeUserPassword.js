@@ -10,36 +10,38 @@ export default function ChangeUserPassword() {
   const [password, setPassword] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(password==confirmPassword){
-      axios
-      .put("/users/change-password", {
-        password: sha256(password),
-        username:user
-      })
-      .then((response) => {
-        Swal.fire("Password Change Successfully");
-        navigate(-1);      
-      })
-      .catch((err) => {
+    if (password === confirmPassword) {
+        axios
+            .put("/users/change-password", {
+                password: sha256(password),
+                username: user
+            })
+            .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    console.log(response);
+                    Swal.fire("Password Change Successfully");
+                    navigate(-1);
+                } else {
+                    throw new Error(`Unexpected response status: ${response.status}`);
+                }
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+                // navigate(-1);
+            });
+    } else {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          // footer: '<a href="#">Why do I have this issue?</a>'
+            icon: "error",
+            title: "Oops...",
+            text: "Password not matched.",
         });
-        navigate(-1);
-      });
-    }else{
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Password not matched.",
-        // footer: '<a href="#">Why do I have this issue?</a>'
-      });
-      // navigate(-1);
     }
-    
-  };
+};
+
   function cancalClick() {
     console.log("cancal");
     navigate(-1);

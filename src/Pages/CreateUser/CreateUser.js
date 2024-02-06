@@ -23,7 +23,6 @@ export default function CreateUser() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(parent_id);
     axios
       .get("/users/get-user/", { params: { username: parent_id } })
       .then((res) => {
@@ -58,29 +57,22 @@ export default function CreateUser() {
           other_match_share: parent_match_share - my_match_share,
           session_commission,
         })
-        .then((res) => {
-          if (res.data.status) {
-            Swal.fire("User Create successfully!");
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log(response);
+            Swal.fire("Create User Successfully");
             navigate(-1);
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-              // footer: '<a href="#">Why do I have this issue?</a>'
-            });
-            navigate(-1);
-          }
+        } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
         })
         .catch((error) => {
-          console.log(error);
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong!",
+            text: error,
             // footer: '<a href="#">Why do I have this issue?</a>'
           });
-          navigate(-1);
         });
     } else {
       alert("Password and Confirm password not matched ");
