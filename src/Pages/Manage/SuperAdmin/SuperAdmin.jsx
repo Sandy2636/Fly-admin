@@ -5,9 +5,10 @@ import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaIcons, FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
 import { TbPasswordUser } from "react-icons/tb";
 import axios from "../../../authAxios";
+
 const SuperAdmin = () => {
   const navigate = useNavigate();
   const params = useParams();
@@ -21,26 +22,28 @@ const SuperAdmin = () => {
     console.log(_id);
     console.log(row);
   };
-  const changePassBtnClick =(_id,row)=>{
-    navigate(`/manage/change-password/${_id}`)
-  }
+
+  const changePassBtnClick = (_id, row) => {
+    navigate(`/manage/change-password/${_id}`);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      await axios
-        .get("/users/get-users", {
+      try {
+        const result = await axios.get("/users/get-users", {
           params: { user_type: "super_admin" },
-        })
-        .then((result) => {
-          setdata(result.data.data);
-          setColData(result.data.data);
-          console.log("xyz", result.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+        setdata(result.data.data);
+        setColData(result.data.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
     function filterData(searchQuery) {
       const query = searchQuery.toLowerCase();
       const result = data?.filter((user) => {
@@ -52,8 +55,10 @@ const SuperAdmin = () => {
 
       return result;
     }
+
+    // Use filtered data in the Table component
     setColData(filterData(filterText));
-  }, [filterText]);
+  }, [filterText, data]);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -72,6 +77,7 @@ const SuperAdmin = () => {
       />
     );
   }, [filterText, resetPaginationToggle]);
+
   const columns = [
     { name: "ID", selector: (row) => row._id },
     { name: "UserName", selector: (row) => row.username },
@@ -83,17 +89,18 @@ const SuperAdmin = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div style={{display:'flex',justifyContent:"space-between"}}>
-          <div style={{margin:"0px 4px"}} onClick={() => editBtnClick(row.username, row)}>
+        <div style={{ display: 'flex', justifyContent: "space-between" }}>
+          <div style={{ margin: "0px 4px" }} onClick={() => editBtnClick(row.username, row)}>
             <FaUserEdit size={18} />
           </div>
-          <div  style={{margin:"0px 4px"}}  onClick={() => changePassBtnClick(row.username, row)}>
+          <div style={{ margin: "0px 4px" }} onClick={() => changePassBtnClick(row.username, row)}>
             <TbPasswordUser size={18} />
           </div>
         </div>
       ),
     },
   ];
+
   const actionsMemo = React.useMemo(
     () => (
       <div style={{ display: "flex", fontSize: "1rem" }}>
@@ -119,8 +126,9 @@ const SuperAdmin = () => {
         />
       </div>
     ),
-    []
+    [navigate, colData, columns]
   );
+
   return (
     <div>
       <div>
@@ -139,4 +147,5 @@ const SuperAdmin = () => {
     </div>
   );
 };
+
 export default SuperAdmin;

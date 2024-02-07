@@ -1,4 +1,5 @@
 import React from 'react';
+import { SiGooglesheets } from "react-icons/si";
 
 const CSVGenerator = ({ columns, data }) => {
   const downloadCSV = () => {
@@ -22,7 +23,7 @@ const CSVGenerator = ({ columns, data }) => {
 
   return (
     <div>
-      <button  style={{ color: "red" }} onClick={downloadCSV}>CSV</button>
+      <SiGooglesheets size={20}  style={{ color: "white" }} onClick={downloadCSV}/>
     </div>
   );
 };

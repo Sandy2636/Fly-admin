@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import "jspdf-autotable";
 import ClientList from "../../../Components/ClientList/ClientList";
@@ -6,8 +5,10 @@ import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaIcons, FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
+import { TbPasswordUser } from "react-icons/tb";
 import axios from "../../../authAxios";
+
 const Admin = () => {
   const navigate = useNavigate();
   const params = useParams();
@@ -21,23 +22,28 @@ const Admin = () => {
     console.log(_id);
     console.log(row);
   };
+
+  const changePassBtnClick = (_id, row) => {
+    navigate(`/manage/change-password/${_id}`);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      await axios
-        .get("/users/get-users", {
+      try {
+        const result = await axios.get("/users/get-users", {
           params: { user_type: "admin" },
-        })
-        .then((result) => {
-          setdata(result.data.data);
-          setColData(result.data.data);
-          console.log("xyz", result.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+        setdata(result.data.data);
+        setColData(result.data.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
     function filterData(searchQuery) {
       const query = searchQuery.toLowerCase();
       const result = data?.filter((user) => {
@@ -49,8 +55,10 @@ const Admin = () => {
 
       return result;
     }
+
+    // Use filtered data in the Table component
     setColData(filterData(filterText));
-  }, [filterText]);
+  }, [filterText, data]);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -69,8 +77,9 @@ const Admin = () => {
       />
     );
   }, [filterText, resetPaginationToggle]);
+
   const columns = [
-    { name: "ID", selector: (row) => row.id },
+    { name: "ID", selector: (row) => row._id },
     { name: "UserName", selector: (row) => row.username },
     { name: "Name", selector: (row) => row.first_name },
     { name: "FixLimit", selector: (row) => row.fix_limit },
@@ -80,12 +89,18 @@ const Admin = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div onClick={() => editBtnClick(row.username, row)}>
-          <FaUserEdit size={18} />
+        <div style={{ display: 'flex', justifyContent: "space-between" }}>
+          <div style={{ margin: "0px 4px" }} onClick={() => editBtnClick(row.username, row)}>
+            <FaUserEdit size={18} />
+          </div>
+          <div style={{ margin: "0px 4px" }} onClick={() => changePassBtnClick(row.username, row)}>
+            <TbPasswordUser size={18} />
+          </div>
         </div>
       ),
     },
   ];
+
   const actionsMemo = React.useMemo(
     () => (
       <div style={{ display: "flex", fontSize: "1rem" }}>
@@ -101,7 +116,7 @@ const Admin = () => {
             margin: "0px 5px",
           }}
         >
-          Create Admin
+          Create  Admin
         </button>
         <CSVGenerator columns={columns} data={colData} />
         <DownloadPdf
@@ -111,18 +126,11 @@ const Admin = () => {
         />
       </div>
     ),
-    []
+    [navigate, colData, columns]
   );
+
   return (
     <div>
-      {/* <div style={{display:'flex'}}>
-        <DownloadPdf
-          columns={columns}
-          data={colData}
-          tableName={"Super Stockist"}
-        />
-        <CSVGenerator columns={columns} data={colData} />
-      </div> */}
       <div>
         <Table
           data={colData}
@@ -139,7 +147,5 @@ const Admin = () => {
     </div>
   );
 };
+
 export default Admin;
-
-
-

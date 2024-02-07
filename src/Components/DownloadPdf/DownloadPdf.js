@@ -1,6 +1,8 @@
 import React from "react";
 import generatePDF, { Resolution, Margin } from "react-to-pdf";
 import jsPDF from "jspdf";
+import { FaFilePdf } from "react-icons/fa";
+
 
 export default function DownloadPdf({columns,data,tableName}) {
     const generatePDF = (columns, data, tableName) => {
@@ -22,11 +24,10 @@ export default function DownloadPdf({columns,data,tableName}) {
       };
   return (
     <div>
-      <button
-        style={{ color: "red" }}
+      <FaFilePdf
+        size={20}  style={{ color: "white" }}
         onClick={() => generatePDF(columns, data, tableName)}
-      > PDF
-      </button>
+      /> 
     </div>
   );
 }

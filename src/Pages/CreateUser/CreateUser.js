@@ -259,7 +259,15 @@ export default function CreateUser() {
             type="number"
             id="matchCommission"
             value={match_commission}
-            onChange={handleChange(setmatch_commission)}
+            // onChange={handleChange(setmatch_commission)}
+            max={2}
+            onChange={(e) => {
+              if (e.target.value <= 2) {
+                setmatch_commission(e.target.value);
+              } else {
+                setmatch_commission(2);
+              }
+            }}
             required
           />
           <p style={{ fontSize: "14px", color: "gray" }}>
@@ -284,7 +292,14 @@ export default function CreateUser() {
             type="number"
             id="sessionCommission"
             value={session_commission}
-            onChange={handleChange(setsession_commission)}
+            // onChange={handleChange(setsession_commission)}
+            onChange={(e)=>{
+               if(e.target.value<=2){
+                setsession_commission(e.target.value);
+               }else{
+                setsession_commission(2);
+               }
+            }}
             required
           />
           <p style={{ fontSize: "14px", color: "gray" }}>
