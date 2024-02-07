@@ -223,8 +223,19 @@ function Sidebar({ display }) {
 
 {isExpanded && item.isExpandable && (
           <div style={{ marginLeft: 20 }}>
-            {item.options
+            { item.title=="Manage" ? item.options
               .filter((opt) => isOptionVisible(opt.allowedRoles))
+              .map((obj) => (
+                <div
+                  className="option"
+                  onClick={(e) => handleListItemClick(obj.path)}
+                >
+                  <div className="option_icon">{obj.icon}</div>
+                  <div className="option_text">
+                    <span className="option_text_span">{obj.title}</span>
+                  </div>
+                </div>
+              )):item.options
               .map((obj) => (
                 <div
                   className="option"
