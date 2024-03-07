@@ -36,7 +36,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/auth/login", {
+      const response = await axios.post("/auth/login-panel", {
         username,
         password: sha256(password),
       });

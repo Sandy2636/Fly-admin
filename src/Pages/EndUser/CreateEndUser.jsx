@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./CreateUser.css";
+// import "./CreateUser.css";
 import axios from "../../authAxios";
 import sha256 from "sha256";
 import Swal from "sweetalert2";
-export default function CreateUser() {
+export default function CreateEndUser() {
   const [username, setUserName] = useState("");
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
@@ -51,7 +51,7 @@ export default function CreateUser() {
           first_name,
           last_name,
           fix_limit,
-          parent_id:localStorage.getItem("_id"),
+          parent_id,
           my_match_share,
           match_commission,
           other_match_share: parent_match_share - my_match_share,
