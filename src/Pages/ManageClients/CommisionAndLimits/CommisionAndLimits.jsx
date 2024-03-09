@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "../../../Components/Table/Table";
 import DownloadPdf from "../../../Components/DownloadPdf/DownloadPdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
 import { useNavigate } from "react-router-dom";
+import axios from "../../../authAxios";
+import { FaDeploydog, FaUserEdit } from "react-icons/fa";
+import { TbPasswordUser } from "react-icons/tb";
+import { Settings } from "@mui/icons-material";
+import Swal from "sweetalert2";
 // import { useHistory } from 'react-router-dom';
 function CommisionAndLimits() {
   const navigate = useNavigate();
@@ -11,160 +16,23 @@ function CommisionAndLimits() {
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
   const [colData, setColData] = React.useState([]);
+  const [data, setData] = useState([]);
+
+  const getCommissionAndLimit = async () => {
+    try {
+      let res = await axios.get("/users/getCommissionAndLimit");
+      if (res.data.status) {
+        setData(res.data.dataobj);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  React.useEffect(() => {
+    getCommissionAndLimit();
+  }, []);
 
   React.useEffect(() => {
-    const data = [
-      {
-        id: 1,
-        username: "user1",
-        name: "John Doe",
-        fix_limit: 10000,
-        my_share: 5000,
-        max_share: 8000,
-        exposure: 3000,
-        actions: "Edit",
-      },
-      {
-        id: 2,
-        username: "user2",
-        name: "Jane Doe",
-        fix_limit: 15000,
-        my_share: 7000,
-        max_share: 10000,
-        exposure: 4000,
-        actions: "Delete",
-      },
-      {
-        id: 3,
-        username: "user3",
-        name: "Alice Johnson",
-        fix_limit: 12000,
-        my_share: 6000,
-        max_share: 9000,
-        exposure: 3500,
-        actions: "Edit",
-      },
-      {
-        id: 4,
-        username: "user4",
-        name: "Bob Smith",
-        fix_limit: 18000,
-        my_share: 8500,
-        max_share: 12000,
-        exposure: 5000,
-        actions: "Delete",
-      },
-      {
-        id: 5,
-        username: "user5",
-        name: "Eva Brown",
-        fix_limit: 20000,
-        my_share: 9500,
-        max_share: 15000,
-        exposure: 6000,
-        actions: "Edit",
-      },
-      {
-        id: 6,
-        username: "user6",
-        name: "Chris Wilson",
-        fix_limit: 13000,
-        my_share: 7000,
-        max_share: 11000,
-        exposure: 4500,
-        actions: "Delete",
-      },
-      {
-        id: 7,
-        username: "user7",
-        name: "Grace Miller",
-        fix_limit: 16000,
-        my_share: 8000,
-        max_share: 13000,
-        exposure: 5500,
-        actions: "Edit",
-      },
-      {
-        id: 8,
-        username: "user8",
-        name: "Daniel Lee",
-        fix_limit: 14000,
-        my_share: 7500,
-        max_share: 10000,
-        exposure: 4800,
-        actions: "Delete",
-      },
-      {
-        id: 9,
-        username: "user9",
-        name: "Olivia White",
-        fix_limit: 17000,
-        my_share: 8800,
-        max_share: 12000,
-        exposure: 5200,
-        actions: "Edit",
-      },
-      {
-        id: 10,
-        username: "user10",
-        name: "Michael Davis",
-        fix_limit: 19000,
-        my_share: 9200,
-        max_share: 14000,
-        exposure: 5800,
-        actions: "Delete",
-      },
-      {
-        id: 11,
-        username: "user11",
-        name: "Sophia Taylor",
-        fix_limit: 11000,
-        my_share: 5500,
-        max_share: 8500,
-        exposure: 3200,
-        actions: "Edit",
-      },
-      {
-        id: 12,
-        username: "user12",
-        name: "Matthew Brown",
-        fix_limit: 22000,
-        my_share: 10500,
-        max_share: 16000,
-        exposure: 7000,
-        actions: "Delete",
-      },
-      {
-        id: 13,
-        username: "user13",
-        name: "Ava Wilson",
-        fix_limit: 25000,
-        my_share: 12000,
-        max_share: 18000,
-        exposure: 8000,
-        actions: "Edit",
-      },
-      {
-        id: 14,
-        username: "user14",
-        name: "Ryan Harris",
-        fix_limit: 20000,
-        my_share: 9500,
-        max_share: 15000,
-        exposure: 6000,
-        actions: "Delete",
-      },
-      {
-        id: 15,
-        username: "user15",
-        name: "Emma Rodriguez",
-        fix_limit: 18000,
-        my_share: 8500,
-        max_share: 13000,
-        exposure: 5500,
-        actions: "Edit",
-      },
-    ];
     function filterData(searchQuery) {
       // Convert the search query to lowercase for case-insensitive matching
       const query = searchQuery.toLowerCase();
@@ -181,8 +49,69 @@ function CommisionAndLimits() {
       return result;
     }
     setColData(filterData(filterText));
-  }, [filterText]);
+  }, [filterText, data]);
 
+  const depositBalanceToUser = async (amount, deposit_to, deposited_by) => {
+    try {
+      const res = await axios.post("/users/deposit", {
+        amount,
+        deposit_to,
+        deposited_by,
+      });
+      if (res.data.status) {
+        Swal.fire({
+          text: "Amount Deposited!",
+          timer: 2000,
+          icon: "success",
+        });
+        getCommissionAndLimit();
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: res.data.msg,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        text: "Something went wrong! please contact admin.",
+      });
+    }
+  };
+
+  const withdrawBalanceFromUser = async (
+    amount,
+    withdraw_from,
+    withdrawn_by
+  ) => {
+    try {
+      const res = await axios.post("/users/withdraw", {
+        amount,
+        withdraw_from,
+        withdrawn_by,
+      });
+      if (res.data.status) {
+        Swal.fire({
+          text: "Amount Withdrown!",
+          timer: 2000,
+          icon: "success",
+        });
+        getCommissionAndLimit();
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: res.data.msg,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        text: "Something went wrong! please contact admin.",
+      });
+    }
+  };
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -200,31 +129,114 @@ function CommisionAndLimits() {
       />
     );
   }, [filterText, resetPaginationToggle]);
-  const columns1 = [
-    { name: "Client Name", selector: (row) => row.id },
-    { name: "Match Comm.", selector: (row) => row.username },
-    { name: "Ssn Comm", selector: (row) => row.name },
+  const limitsColumn = [
+    { name: "Current Limit", selector: (row) => row.credits },
+    { name: "Down Limit", selector: (row) => row.down_limit },
+    {
+      name: "Action",
+      cell: (row) => (
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{
+              margin: "0 2px",
+              borderRadius: 4,
+              backgroundColor: "lightblue",
+              padding: "4px",
+              aspectRatio: 1,
+              width: 30,
+            }}
+            onClick={() => {
+              Swal.fire({
+                title: "Deposit Balance to User",
+                input: "text",
+                inputAttributes: {
+                  autocapitalize: "off",
+                },
+                background: "#2b2d3a",
+                color: "#fff",
+                showCancelButton: true,
+                confirmButtonText: "Deposit",
+                showLoaderOnConfirm: true,
+                preConfirm: (amount) => {
+                  depositBalanceToUser(
+                    amount,
+                    row._id,
+                    localStorage.getItem("_id")
+                  );
+                }, //THIS FUNCTION IS CALLED FIRST
+                allowOutsideClick: () => !Swal.isLoading(),
+              });
+            }}
+          >
+            D
+          </div>
+          <div
+            style={{
+              margin: "0 2px",
+              borderRadius: 4,
+              backgroundColor: "red",
+              padding: "4px",
+              aspectRatio: 1,
+              width: 30,
+            }}
+            onClick={() => {
+              Swal.fire({
+                title: "Withdraw Balance from User",
+                input: "text",
+                inputAttributes: {
+                  autocapitalize: "off",
+                },
+                background: "#2b2d3a",
+                color: "#fff",
+                showCancelButton: true,
+                confirmButtonText: "Withdraw",
+                showLoaderOnConfirm: true,
+                preConfirm: (amount) => {
+                  withdrawBalanceFromUser(
+                    amount,
+                    row._id,
+                    localStorage.getItem("_id")
+                  );
+                }, //THIS FUNCTION IS CALLED FIRST
+                allowOutsideClick: () => !Swal.isLoading(),
+              });
+            }}
+          >
+            W
+          </div>
+          <div
+            style={{
+              margin: "0 2px",
+              borderRadius: 4,
+              backgroundColor: "purple",
+              padding: "4px",
+              aspectRatio: 1,
+              width: 30,
+            }}
+            // onClick={() => changePassBtnClick(row.username, row)}
+          >
+            <Settings size={18} />
+          </div>
+        </div>
+      ),
+    },
   ];
-  const columns2 = [
-    { name: "Current Limit", selector: (row) => row.id },
-    { name: "Down Balance", selector: (row) => row.username },
-    { name: "Action", selector: (row) => row.name },
-  ];
-  const columnsSummary = [
-    { name: "Current Limit", selector: (row) => row.id },
-    { name: "Down Balance", selector: (row) => row.username },
-    { name: "Action", selector: (row) => row.name },
+
+  const commissionColumn = [
+    { name: "Client Name", selector: (row) => row.username },
+    { name: "Match Comm.", selector: (row) => row.match_commission },
+    { name: "Session Comm.", selector: (row) => row.session_commission },
   ];
   const actionsMemo = React.useMemo(
     () => (
       <div style={{ display: "flex", fontSize: "1rem" }}>
         {/* <button onClick={()=>{navigate('/manage/punter/create-user')}} style={{backgroundColor:"#896CEF",color:'white', border:'none', borderRadius:'5px',margin:'0px 5px' }}>Create New User</button> */}
-        <CSVGenerator columns={columns1} data={colData} />
-        <DownloadPdf
-          columns={columns1}
+        {/* <CSVGenerator columns={columns} data={colData} /> */}
+        {/* <DownloadPdf
+          columns={columns}
           data={colData}
           tableName={"Table Name"}
-        />
+        /> */}
       </div>
     ),
     []
@@ -287,10 +299,10 @@ function CommisionAndLimits() {
           <tbody>
             <tr>
               <td>
-                <Table data={commissionData} columns={columns1} />
+                <Table data={commissionData} columns={commissionColumn} />
               </td>
               <td>
-                <Table data={limitsData} columns={columns2} />
+                <Table data={limitsData} columns={limitsColumn} />
               </td>
             </tr>
           </tbody>
@@ -302,25 +314,29 @@ function CommisionAndLimits() {
     <div>
       <TableElement
         title={"Super Stockist"}
-        commissionData={colData}
-        limitsData={colData}
+        commissionData={colData.filter(
+          (user) => user.user_type == "super_stockist"
+        )}
+        limitsData={colData.filter(
+          (user) => user.user_type == "super_stockist"
+        )}
       />
       <TableElement
         title={"Stockist"}
-        commissionData={colData}
-        limitsData={colData}
+        commissionData={colData.filter((user) => user.user_type == "stockist")}
+        limitsData={colData.filter((user) => user.user_type == "stockist")}
       />
       <TableElement
         title={"Agent"}
-        commissionData={colData}
-        limitsData={colData}
+        commissionData={colData.filter((user) => user.user_type == "agent")}
+        limitsData={colData.filter((user) => user.user_type == "agent")}
       />
       <TableElement
         title={"All Users"}
         commissionData={colData}
         limitsData={colData}
       />
-      <div
+      {/* <div
         style={{
           backgroundColor: "#2b2d3a",
           borderRadius: "8px",
@@ -330,8 +346,13 @@ function CommisionAndLimits() {
         }}
       >
         <span style={{ padding: "16px 0", fontSize: 18 }}>Summary</span>
+<<<<<<< HEAD
         <Table data={colData} columns={columnsSummary} />
       </div>
+=======
+        <Table data={colData} columns={limitsColumn} />
+      </div> */}
+>>>>>>> 1df6d5fff26686a51db32303d8d9cad89ac20e9d
     </div>
   );
 }

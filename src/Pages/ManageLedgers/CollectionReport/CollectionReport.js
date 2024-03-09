@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../../Components/Table/Table";
+import axios from "../../../authAxios";
 import { Tab, Tabs } from "@mui/material";
 import { usePDF } from "react-to-pdf";
 import CSVGenerator from "../../../Components/CSVGenrator/CSVGenerator";
@@ -8,14 +9,18 @@ export default function CollectionReport() {
   const [activeTab, setActiveTab] = useState(1);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [activeTabSport, setActiveTabSport] = useState(0);
+  const [lenaHai, setLenaHai] = useState([]);
+  const [denaHai, setDenaHai] = useState([]);
+  const [clearHai, setClearHai] = useState([]);
+  const [allCollections, setAllCollections] = useState([]);
   const columns = [
     {
       name: "Client",
-      selector: (row) => row.id,
+      selector: (row) => row.collect_from_username,
     },
     {
       name: "Balance",
-      selector: (row) => row.pid,
+      selector: (row) => row.amount,
     },
   ];
 
@@ -29,22 +34,41 @@ export default function CollectionReport() {
       pid: "idk",
     },
   ];
+
+  useEffect(() => {
+    const getCollection = async () => {
+      try {
+        const res = await axios.get("/users/getCollectionReport", {
+          params: { user_id: localStorage.getItem("_id") },
+        });
+        if (res.data.status) {
+          const data = res.data.dataobj;
+          setAllCollections(data);
+          setDenaHai(data.filter((i) => i.amount > 0));
+          setLenaHai(data.filter((i) => i.amount < 0));
+          setClearHai(data.filter((i) => i.amount == 0));
+        }
+      } catch (er) {
+        console.log(er);
+      }
+    };
+    getCollection();
+  }, []);
   const actionsMemo = React.useMemo(
     () => (
-      <div style={{display:'flex', fontSize:'1rem'}}>
-        <CSVGenerator columns={columns} data={data}/>
+      <div style={{ display: "flex", fontSize: "1rem" }}>
+        <CSVGenerator columns={columns} data={data} />
         <DownloadPdf columns={columns} data={data} tableName={"Table Name"} />
       </div>
     ),
     []
   );
   const returnCurrentTabTable = () => {
-   
     if (activeTab == 1 && activeTabSport == 0)
       return (
         <Table
           title="PAYMENT RECEIVING FROM (Lena hai)"
-          data={data}
+          data={lenaHai}
           columns={columns}
           actions={actionsMemo}
         />
@@ -53,7 +77,7 @@ export default function CollectionReport() {
       return (
         <Table
           title="PAYMENT PAID TO (Dena hai)"
-          data={data}
+          data={denaHai}
           columns={columns}
           actions={actionsMemo}
         />
@@ -62,7 +86,7 @@ export default function CollectionReport() {
       return (
         <Table
           title="PAYMENT CLAER (Clear hai)"
-          data={data}
+          data={clearHai}
           columns={columns}
           actions={actionsMemo}
         />
@@ -70,28 +94,28 @@ export default function CollectionReport() {
     else return <></>;
   };
 
-//   const options = {
-//     method: 'open',
-//     resolution: Resolution.HIGH,
-//     page: {
-//        margin: Margin.SMALL,
-//        format: 'a4',
-//        orientation: 'portrait',
-//     },
-//     canvas: {
-//        mimeType: 'image/png',
-//        qualityRatio: 1
-//     },
-//     overrides: {
-//        pdf: {
-//           compress: true
-//        },
-//        canvas: {
-//           useCORS: true
-//        }
-//     },
-//  };
- const getTargetElement = () => document.getElementById('content-id');
+  //   const options = {
+  //     method: 'open',
+  //     resolution: Resolution.HIGH,
+  //     page: {
+  //        margin: Margin.SMALL,
+  //        format: 'a4',
+  //        orientation: 'portrait',
+  //     },
+  //     canvas: {
+  //        mimeType: 'image/png',
+  //        qualityRatio: 1
+  //     },
+  //     overrides: {
+  //        pdf: {
+  //           compress: true
+  //        },
+  //        canvas: {
+  //           useCORS: true
+  //        }
+  //     },
+  //  };
+  const getTargetElement = () => document.getElementById("content-id");
 
   return (
     <div>
@@ -146,4 +170,3 @@ export default function CollectionReport() {
     </div>
   );
 }
-
