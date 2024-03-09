@@ -200,18 +200,28 @@ function CommisionAndLimits() {
       />
     );
   }, [filterText, resetPaginationToggle]);
-  const columns = [
-    { name: "ID", selector: (row) => row.id },
-    { name: "UserName", selector: (row) => row.username },
-    { name: "Name", selector: (row) => row.name },
+  const columns1 = [
+    { name: "Client Name", selector: (row) => row.id },
+    { name: "Match Comm.", selector: (row) => row.username },
+    { name: "Ssn Comm", selector: (row) => row.name },
+  ];
+  const columns2 = [
+    { name: "Current Limit", selector: (row) => row.id },
+    { name: "Down Balance", selector: (row) => row.username },
+    { name: "Action", selector: (row) => row.name },
+  ];
+  const columnsSummary = [
+    { name: "Current Limit", selector: (row) => row.id },
+    { name: "Down Balance", selector: (row) => row.username },
+    { name: "Action", selector: (row) => row.name },
   ];
   const actionsMemo = React.useMemo(
     () => (
       <div style={{ display: "flex", fontSize: "1rem" }}>
         {/* <button onClick={()=>{navigate('/manage/punter/create-user')}} style={{backgroundColor:"#896CEF",color:'white', border:'none', borderRadius:'5px',margin:'0px 5px' }}>Create New User</button> */}
-        <CSVGenerator columns={columns} data={colData} />
+        <CSVGenerator columns={columns1} data={colData} />
         <DownloadPdf
-          columns={columns}
+          columns={columns1}
           data={colData}
           tableName={"Table Name"}
         />
@@ -277,10 +287,10 @@ function CommisionAndLimits() {
           <tbody>
             <tr>
               <td>
-                <Table data={commissionData} columns={columns} />
+                <Table data={commissionData} columns={columns1} />
               </td>
               <td>
-                <Table data={limitsData} columns={columns} />
+                <Table data={limitsData} columns={columns2} />
               </td>
             </tr>
           </tbody>
@@ -320,7 +330,7 @@ function CommisionAndLimits() {
         }}
       >
         <span style={{ padding: "16px 0", fontSize: 18 }}>Summary</span>
-        <Table data={colData} columns={columns} />
+        <Table data={colData} columns={columnsSummary} />
       </div>
     </div>
   );

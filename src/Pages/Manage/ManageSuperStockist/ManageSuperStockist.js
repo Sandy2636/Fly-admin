@@ -31,7 +31,7 @@ const ManageSuperStockist = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get("/users/get-users", {
-          params: { user_type: "super_stockist" },
+          params: { user_type: "super_stockist",user_id:localStorage.getItem('_id') },
         });
         setdata(result.data.data);
         setColData(result.data.data);

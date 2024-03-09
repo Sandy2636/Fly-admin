@@ -31,7 +31,7 @@ const Agent = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get("/users/get-users", {
-          params: { user_type: "agent" },
+          params: { user_type: "agent",user_id:localStorage.getItem('_id') },
         });
         setdata(result.data.data);
         setColData(result.data.data);

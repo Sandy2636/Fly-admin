@@ -53,19 +53,11 @@ export default function LiveMatches() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.matchObj.id,
-    },
-    {
-      name: "PID",
-      selector: (row) => "",
+      selector: (row) => row.matchObj.id, width:"100px"
     },
     {
       name: "Title",
       selector: (row) =>  row.matchObj.name,
-    },
-    {
-      name: "Sport",
-      selector: (row) => row.sports,
     },
     {
       name: "Date",
