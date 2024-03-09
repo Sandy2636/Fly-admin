@@ -346,13 +346,8 @@ function CommisionAndLimits() {
         }}
       >
         <span style={{ padding: "16px 0", fontSize: 18 }}>Summary</span>
-<<<<<<< HEAD
-        <Table data={colData} columns={columnsSummary} />
-      </div>
-=======
         <Table data={colData} columns={limitsColumn} />
       </div> */}
->>>>>>> 1df6d5fff26686a51db32303d8d9cad89ac20e9d
     </div>
   );
 }
