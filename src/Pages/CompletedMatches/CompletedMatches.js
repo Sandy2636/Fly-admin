@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../Components/Table/Table";
 import axios from "../../authAxios";
 import { Tab, Tabs } from "@mui/material";
@@ -11,18 +11,11 @@ export default function CompletedMatches() {
   const [activeTab, setActiveTab] = useState(1);
   const [activeTabSport, setActiveTabSport] = useState(0);
   const [value, onChange] = useState([new Date(), new Date()]);
-  const [matches, setMatches] = useState([])
-  const [sports_id, setSports_id] = useState(4)
+  const [matches, setMatches] = useState([]);
+  const [sports_id, setSports_id] = useState(4);
+  const [profitAndLoss, setProfitAndLoss] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-        await getLiveMatches(sports_id);
-    };
-
-    fetchData();
-  }, [activeTab, sports_id]);
-
-  const getLiveMatches = async (sports_id) => {
+  const getCompletedMatchs = async (sports_id) => {
     setMatches([]);
     try {
       let res = await axios.get("/matches/getCompletedMatches/" + sports_id);
@@ -34,14 +27,38 @@ export default function CompletedMatches() {
     }
   };
 
+  const getProfitAndLossOfCompletedMatchs = async () => {
+    try {
+      let res = await axios.get("/users/getProfitAndLossOfCompletedMatchs", {
+        params: {
+          user_id: localStorage.getItem("user_id"),
+        },
+      });
+      if (res.data.status) {
+        setProfitAndLoss(res.data.profit_loss_ledger);
+      }
+    } catch (err) {
+      console.log(err);
+      setProfitAndLoss({});
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getCompletedMatchs(sports_id);
+    };
+    getProfitAndLossOfCompletedMatchs();
+    fetchData();
+  }, [activeTab, sports_id]);
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.matchObj.id, width:"100px"
+      selector: (row) => row.matchObj.id,
+      width: "100px",
     },
     {
       name: "Title",
-      selector: (row) =>  row.matchObj.name,
+      selector: (row) => row.matchObj.name,
     },
     {
       name: "Date",
@@ -49,8 +66,8 @@ export default function CompletedMatches() {
     },
     {
       name: "Declare",
-      selector: (row) => row.matchObj.status == "declared"?"No":"Yes",
-      width:"100px"
+      selector: (row) => (row.matchObj.status == "declared" ? "No" : "Yes"),
+      width: "100px",
     },
     {
       name: "Won By",
@@ -58,11 +75,10 @@ export default function CompletedMatches() {
     },
     {
       name: "Profit/ Loss",
-      selector: (row) => row.profit_loss,
+      selector: (row) => profitAndLoss?.[row.match_id] || "Report Not Avilable",
     },
   ];
 
-  
   const returnCurrentTabTable = () => {
     if (activeTab == 1 && activeTabSport == 0)
       return (
@@ -74,11 +90,19 @@ export default function CompletedMatches() {
       );
     else if (activeTab == 1 && activeTabSport == 1)
       return (
-        <Table title="Completed Soccer Matches" data={matches} columns={columns} />
+        <Table
+          title="Completed Soccer Matches"
+          data={matches}
+          columns={columns}
+        />
       );
     else if (activeTab == 1 && activeTabSport == 2)
       return (
-        <Table title="Completed Tennis Matches" data={matches} columns={columns} />
+        <Table
+          title="Completed Tennis Matches"
+          data={matches}
+          columns={columns}
+        />
       );
     else return <></>;
   };
@@ -86,7 +110,13 @@ export default function CompletedMatches() {
     <div>
       <div style={{ padding: "16px 0" }}>
         {/* <div style={{backgroundColor:"white"}}> */}
-          <DateRangePicker onChange={onChange} value={value} clearIcon={<MdOutlineClear color="white"  />} calendarIcon={<SlCalender color="white"/>} format={"dd-MM-y"}/>
+        <DateRangePicker
+          onChange={onChange}
+          value={value}
+          clearIcon={<MdOutlineClear color="white" />}
+          calendarIcon={<SlCalender color="white" />}
+          format={"dd-MM-y"}
+        />
         {/* </div> */}
 
         <Tabs
