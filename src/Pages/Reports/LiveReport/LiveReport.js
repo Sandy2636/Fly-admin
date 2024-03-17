@@ -25,7 +25,9 @@ export default function LiveReport() {
   const [bookMaker, setbookMaker] = useState([]);
   const [declaredSessionData, setDeclaredSession] = useState([]);
   const [undeclaredSessionData, setUndeclaredSession] = useState([]);
-  const [liveMatchPosition, setliveMatchPosition] = useState()
+  const [liveMatchPosition, setliveMatchPosition] = useState();
+  const [Home, setHome] = useState("");
+  const [Away, setAway] = useState("");
 
   const getMatchBets = async () => {
     try {
@@ -81,10 +83,16 @@ export default function LiveReport() {
       console.log(error);
     }
   };
-  const geLiveMatchPosition = async () => {
+  const geLiveMatchPosition = async (Home,Away) => {
     try {
+      var position ={};
+      console.log("Home",Home);
+      console.log("Away",Away);
+      position[Home] = 0;
+      position[Away] = 0;
+
       const response =await axios.get("/analysis/getLiveMatchReport", {
-        params: { user_id: localStorage.getItem("_id"), match_id: match_id },
+        params: { user_id: localStorage.getItem("_id"), match_id: match_id,position},
       });
 
       if (response) {
@@ -94,15 +102,34 @@ export default function LiveReport() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getMatchBets();
     getSessionBets();
     getDeclareSession();
     getUndeclareSession();
-    geLiveMatchPosition();
+   
   }, []);
   useEffect(() => {
     let useEffectMarket_id = "";
+    const getRunners = async () => {
+      console.log("market Id", market_id);
+      try {
+        const response = await axios.get("/t-p/getRunners", {
+          params: {
+            market_id: useEffectMarket_id,
+          },
+        });
+        setHome(response.data.dataobj[0]?.runners[0]?.runnerName);
+        // console.log(response.data.dataobj[0]?.runners[0]?.runnerName);
+        // console.log(response.data.dataobj[0]?.runners[1]?.runnerName);
+        setAway(response.data.dataobj[0]?.runners[1]?.runnerName);
+        geLiveMatchPosition(response.data.dataobj[0]?.runners[0]?.runnerName,response.data.dataobj[0]?.runners[1]?.runnerName);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     const getMarketList = async () => {
       try {
         let res = await axios.get("/t-p/getMarketList", {
@@ -115,6 +142,7 @@ export default function LiveReport() {
           setmarket_id(res.data.dataobj[0].marketId);
           useEffectMarket_id = res.data.dataobj[0].marketId;
           getOdds();
+          getRunners();
         }
       } catch (err) {
         console.log(err);
@@ -292,7 +320,7 @@ export default function LiveReport() {
       <>
         <div
           className="betting"
-          style={{ padding: "10px 0", margin: "16px 0" }}
+          style={{ padding: "10px 0", margin: "16px 0" ,}}
         >
           <h6>Pending Session </h6>
           <table style={{ overflow: "scroll" }}>
@@ -427,27 +455,37 @@ export default function LiveReport() {
     
     return istDateTimeString;
   }
+  const pendingSessionCol = [
+    { name: "SESSION", selector: (row) => row.runnerName,wrap:"true",width:"200px" },
+    { name: "Yes", selector: (row) => row.layPrice },
+    { name: "No", selector: (row) => row.backPrice },
+    { name: "Yes", selector: (row) => 1 },
+    { name: "NO", selector: (row) => 1 },
+    { name: "Pos Yes", selector: (row) => 0 },
+    { name: "Pos No	", selector: (row) => 0 },
+    { name: "Action", selector: (row) => (<button>Position</button>)},
+  ];
 
   const matchOddCol = [
     { name: "Member", selector: (row) => row.user_id,width:"100px" },
-    { name: "Market", selector: (row) => row.type,width:"70px" },
-    { name: "Selection", selector: (row) => row.first_name },
-    { name: "Odds", selector: (row) => row.fix_limit },
-    { name: "Stake", selector: (row) => row.my_share },
-    { name: "P&L", selector: (row) => row.max_share },
+    { name: "Market", selector: (row) => row.type,width:"100px" },
+    { name: "Selection", selector: (row) => row.bet_on,width:"150px",wrap:"true" },
+    { name: "Rate", selector: (row) => row.bet_rate },
+    { name: "Stake", selector: (row) => row.bet_amount },
+    { name: "P&L", selector: (row) => row.bet_amount },
     { name: "Place Date/Time	", selector: (row) => convertToIST(row.createdAt),width:'190px' },
-    { name: "MatchedTime", selector: (row) => row.exposure },
+    { name: "MatchedTime", selector: (row) => convertToIST(row.createdAt),width:'190px'},
   ];
 
   const sessionCol = [
-    { name: "Fancy", selector: (row) => row._id },
-    { name: "Client", selector: (row) => row.username },
-    { name: "Yes/No", selector: (row) => row.first_name },
-    { name: "Odds", selector: (row) => row.fix_limit },
-    { name: "Y/N", selector: (row) => row.my_share },
-    { name: "Stack", selector: (row) => row.max_share },
-    { name: "P&L", selector: (row) => row.exposure },
-    { name: "DateTime	", selector: (row) => row.exposure },
+    { name: "Fancy", selector: (row) => row.fancy_Detail.runnerName,width:"200px",wrap:'true' },
+    { name: "Client", selector: (row) => row._id },
+    { name: "Yes/No", selector: (row) => row.bet_type },
+    { name: "Rate", selector: (row) => row.bet_rate },
+    { name: "Y/N", selector: (row) => row.bet_type=="No"?row.fancy_Detail.layPrice1: row.fancy_Detail.backPrice1},
+    { name: "Stack", selector: (row) => row.bet_amount },
+    { name: "P&L", selector: (row) => row.bet_amount },
+    { name: "DateTime	", selector: (row) =>convertToIST(row.createdAt),width:'190px'},
   ];
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -538,8 +576,35 @@ export default function LiveReport() {
       </div>
       {oddsTable()}
       {bookMakerTable()}
-      {diamandFancyTable()}
       {declareTossMarket()}
+      {declaredSession()}
+      <Accordion style={{ backgroundColor: "transparent" }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon color="#ffffff" />}
+          aria-controls="panel2-content"
+          id="panel2-header"
+          style={{
+            backgroundColor: "#8d73ff",
+            color: "white",
+          }}
+        >
+          <Typography>Pendding Session</Typography>
+        </AccordionSummary>
+        <AccordionDetails style={{ backgroundColor: "transparent" }}>
+          <Typography>
+            <Table
+              style={{ padding: "0px !important" }}
+              data={undeclaredSessionData}
+              columns={pendingSessionCol}
+              pagination
+              subHeader
+              subHeaderComponent={subHeaderComponentMemo}
+              persistTableHead
+              paginationResetDefaultPage={resetPaginationToggle}
+            />
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
       <Accordion style={{ backgroundColor: "transparent" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color="#ffffff" />}

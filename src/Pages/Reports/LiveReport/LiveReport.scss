@@ -49,3 +49,27 @@ table{
     background-color: rgba(255, 255, 255, 0.8);
   }
   
+  .scroll-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow-x: auto;
+  }
+  
+  .scroll-table th,
+  .scroll-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .scroll-table th:first-child,
+  .scroll-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: #fff;
+  }
+  
