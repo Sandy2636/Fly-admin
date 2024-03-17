@@ -38,7 +38,6 @@ export default function LiveReport() {
       if (response) {
         console.log(response);
         setMatchBets(response.data.dataobj);
-       
       }
     } catch (error) {
       console.log(error);
@@ -72,7 +71,7 @@ export default function LiveReport() {
   };
   const getUndeclareSession = async () => {
     try {
-      const response =await axios.get("/analysis/undeclaredFancy", {
+      const response = await axios.get("/analysis/undeclaredFancy", {
         params: { match_id: match_id },
       });
 
@@ -83,16 +82,18 @@ export default function LiveReport() {
       console.log(error);
     }
   };
-  const geLiveMatchPosition = async (Home,Away) => {
+  const geLiveMatchPosition = async (Home, Away) => {
     try {
-      var position ={};
-      console.log("Home",Home);
-      console.log("Away",Away);
+      let position = {};
+      console.log("Home", Home);
+      console.log("Away", Away);
       position[Home] = 0;
       position[Away] = 0;
 
-      const response =await axios.get("/analysis/getLiveMatchReport", {
-        params: { user_id: localStorage.getItem("_id"), match_id: match_id,position},
+      const response = await axios.post("/analysis/getLiveMatchReport", {
+        user_id: localStorage.getItem("_id"),
+        match_id: match_id,
+        position,
       });
 
       if (response) {
@@ -108,7 +109,6 @@ export default function LiveReport() {
     getSessionBets();
     getDeclareSession();
     getUndeclareSession();
-   
   }, []);
   useEffect(() => {
     let useEffectMarket_id = "";
@@ -124,8 +124,10 @@ export default function LiveReport() {
         // console.log(response.data.dataobj[0]?.runners[0]?.runnerName);
         // console.log(response.data.dataobj[0]?.runners[1]?.runnerName);
         setAway(response.data.dataobj[0]?.runners[1]?.runnerName);
-        geLiveMatchPosition(response.data.dataobj[0]?.runners[0]?.runnerName,response.data.dataobj[0]?.runners[1]?.runnerName);
-
+        geLiveMatchPosition(
+          response.data.dataobj[0]?.runners[0]?.runnerName,
+          response.data.dataobj[0]?.runners[1]?.runnerName
+        );
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -256,7 +258,7 @@ export default function LiveReport() {
     )?.map((bookMakerObj) => (
       <>
         <div
-         className="betting"
+          className="betting"
           style={{
             padding: "10px 0",
             margin: "16px 0",
@@ -320,7 +322,7 @@ export default function LiveReport() {
       <>
         <div
           className="betting"
-          style={{ padding: "10px 0", margin: "16px 0" ,}}
+          style={{ padding: "10px 0", margin: "16px 0" }}
         >
           <h6>Pending Session </h6>
           <table style={{ overflow: "scroll" }}>
@@ -422,8 +424,8 @@ export default function LiveReport() {
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody>{
-                }
+              <tbody>
+                {}
                 <tr>
                   <td></td>
                   <td style={{ width: "60px" }}></td>
@@ -439,7 +441,7 @@ export default function LiveReport() {
 
   function convertToIST(utcDateTimeString) {
     const utcDateTime = new Date(utcDateTimeString);
-    
+
     const istOptions = {
       timeZone: "Asia/Kolkata",
       hour12: true,
@@ -448,44 +450,77 @@ export default function LiveReport() {
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit"
+      second: "2-digit",
     };
-  
+
     const istDateTimeString = utcDateTime.toLocaleString("en-IN", istOptions);
-    
+
     return istDateTimeString;
   }
   const pendingSessionCol = [
-    { name: "SESSION", selector: (row) => row.runnerName,wrap:"true",width:"200px" },
+    {
+      name: "SESSION",
+      selector: (row) => row.runnerName,
+      wrap: "true",
+      width: "200px",
+    },
     { name: "Yes", selector: (row) => row.layPrice },
     { name: "No", selector: (row) => row.backPrice },
     { name: "Yes", selector: (row) => 1 },
     { name: "NO", selector: (row) => 1 },
     { name: "Pos Yes", selector: (row) => 0 },
     { name: "Pos No	", selector: (row) => 0 },
-    { name: "Action", selector: (row) => (<button>Position</button>)},
+    { name: "Action", selector: (row) => <button>Position</button> },
   ];
 
   const matchOddCol = [
-    { name: "Member", selector: (row) => row.user_id,width:"100px" },
-    { name: "Market", selector: (row) => row.type,width:"100px" },
-    { name: "Selection", selector: (row) => row.bet_on,width:"150px",wrap:"true" },
+    { name: "Member", selector: (row) => row.user_id, width: "100px" },
+    { name: "Market", selector: (row) => row.type, width: "100px" },
+    {
+      name: "Selection",
+      selector: (row) => row.bet_on,
+      width: "150px",
+      wrap: "true",
+    },
     { name: "Rate", selector: (row) => row.bet_rate },
     { name: "Stake", selector: (row) => row.bet_amount },
     { name: "P&L", selector: (row) => row.bet_amount },
-    { name: "Place Date/Time	", selector: (row) => convertToIST(row.createdAt),width:'190px' },
-    { name: "MatchedTime", selector: (row) => convertToIST(row.createdAt),width:'190px'},
+    {
+      name: "Place Date/Time	",
+      selector: (row) => convertToIST(row.createdAt),
+      width: "190px",
+    },
+    {
+      name: "MatchedTime",
+      selector: (row) => convertToIST(row.createdAt),
+      width: "190px",
+    },
   ];
 
   const sessionCol = [
-    { name: "Fancy", selector: (row) => row.fancy_Detail.runnerName,width:"200px",wrap:'true' },
+    {
+      name: "Fancy",
+      selector: (row) => row.fancy_Detail.runnerName,
+      width: "200px",
+      wrap: "true",
+    },
     { name: "Client", selector: (row) => row._id },
     { name: "Yes/No", selector: (row) => row.bet_type },
     { name: "Rate", selector: (row) => row.bet_rate },
-    { name: "Y/N", selector: (row) => row.bet_type=="No"?row.fancy_Detail.layPrice1: row.fancy_Detail.backPrice1},
+    {
+      name: "Y/N",
+      selector: (row) =>
+        row.bet_type == "No"
+          ? row.fancy_Detail.layPrice1
+          : row.fancy_Detail.backPrice1,
+    },
     { name: "Stack", selector: (row) => row.bet_amount },
     { name: "P&L", selector: (row) => row.bet_amount },
-    { name: "DateTime	", selector: (row) =>convertToIST(row.createdAt),width:'190px'},
+    {
+      name: "DateTime	",
+      selector: (row) => convertToIST(row.createdAt),
+      width: "190px",
+    },
   ];
 
   const subHeaderComponentMemo = React.useMemo(() => {
