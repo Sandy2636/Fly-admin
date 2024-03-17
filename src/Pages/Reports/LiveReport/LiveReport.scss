@@ -1,0 +1,51 @@
+.betting{h6{
+    padding: 8px 16px;
+    background: #8d73ff;
+
+}}
+
+table ,thead , tbody, tr, td, th{
+    border: 1px solid white;
+    text-align: center;
+    text-overflow: ellipsis;
+} 
+.betting{
+    overflow-x: auto;
+    td , th{
+        width: 25%;
+    }    
+}
+.toss_betting{
+    overflow-x: auto;
+    td , th{
+        width: 20%;
+    }    
+}
+
+.session_betting{
+    .bet_cond{
+        width: 50%;
+    }
+    td , th{
+        width: 10%;
+    } 
+}
+
+table{
+    width: 100%;
+}
+
+
+.overlay-cell {
+    position: relative;
+  }
+  
+  .overlay-cell::after {
+    content: attr(data-content);
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding: 0 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  

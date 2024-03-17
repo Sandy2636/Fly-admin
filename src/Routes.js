@@ -28,6 +28,9 @@ import Agent from "./Pages/Manage/Agent/Agent";
 import NotFound from "./Pages/NotFound/NotFound";
 import UpdateUser from "./Pages/UpdateUser/UpdateUser";
 import ChangeUserPassword from "./Pages/ChangeUserPassword/ChangeUserPassword";
+import Reports from "./Pages/Reports/Reports";
+import LiveReport from "./Pages/Reports/LiveReport/LiveReport";
+import SessionBetSlip from "./Pages/Reports/SessionBetSlip/SessionBetSlip";
 
 function AppRoutes() {
   const navigate = useNavigate();
@@ -134,6 +137,18 @@ const PrivateRoutes = () => {
         <Route
           path="/manage/change-password/:user"
           element={<HomeLayout child={<ChangeUserPassword />} />}
+        ></Route>
+         <Route
+          path="/live-matches/reports/:match_id"
+          element={<HomeLayout child={<Reports/>} />}
+        ></Route>
+          <Route
+          path="/live-matches/reports/:match_id/live-report"
+          element={<HomeLayout child={<LiveReport/>} />}
+        ></Route>
+        <Route
+          path="/live-matches/reports/:match_id/sessionbet-slip"
+          element={<HomeLayout child={<SessionBetSlip/>} />}
         ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

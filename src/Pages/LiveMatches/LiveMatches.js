@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../authAxios";
 import "./LiveMatches.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Table from "../../Components/Table/Table";
 import { Tab, Tabs } from "@mui/material";
+import { TbReport } from "react-icons/tb";
 
 export default function LiveMatches() {
   const params = useParams();
@@ -53,11 +54,19 @@ export default function LiveMatches() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.matchObj.id, width:"100px"
+      selector: (row) => row.matchObj.id,
+      width: "100px",
     },
     {
       name: "Title",
-      selector: (row) =>  row.matchObj.name,
+      selector: (row) => (
+        <Link
+          to={`/live-matches/reports/${row.matchObj.id}`}
+          style={{ color: "blue", }}
+        >
+          {row.matchObj.name}
+        </Link>
+      ),
     },
     {
       name: "Date",
@@ -67,21 +76,53 @@ export default function LiveMatches() {
       name: "Profit/ Loss",
       selector: (row) => row.profit_loss,
     },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div style={{ display: 'flex', justifyContent: "space-between" }}>
+          <button style={{backgroundColor:"#9d2525",color:"white",border:'none'}} onClick={()=>{navigate("/live-matches/reports/"+row.matchObj.id+"/live-report")}}>Live Report</button>
+        </div>
+      ),
+    },
   ];
 
   const returnCurrentTabTable = () => {
     if (activeTab === 0 && activeTabSport === 0)
-      return <Table title="Live Cricket Matches" data={matches} columns={columns} />;
+      return (
+        <Table title="Live Cricket Matches" data={matches} columns={columns} />
+      );
     else if (activeTab === 0 && activeTabSport === 1)
-      return <Table title="Live Soccer Matches" data={matches} columns={columns} />;
+      return (
+        <Table title="Live Soccer Matches" data={matches} columns={columns} />
+      );
     else if (activeTab === 0 && activeTabSport === 2)
-      return <Table title="Live Tennis Matches" data={matches} columns={columns} />;
+      return (
+        <Table title="Live Tennis Matches" data={matches} columns={columns} />
+      );
     else if (activeTab === 1 && activeTabSport === 0)
-      return <Table title="Upcoming Cricket Matches" data={matches} columns={columns} />;
+      return (
+        <Table
+          title="Upcoming Cricket Matches"
+          data={matches}
+          columns={columns}
+        />
+      );
     else if (activeTab === 1 && activeTabSport === 1)
-      return <Table title="Upcoming Soccer Matches" data={matches} columns={columns} />;
+      return (
+        <Table
+          title="Upcoming Soccer Matches"
+          data={matches}
+          columns={columns}
+        />
+      );
     else if (activeTab === 1 && activeTabSport === 2)
-      return <Table title="Upcoming Tennis Matches" data={matches} columns={columns} />;
+      return (
+        <Table
+          title="Upcoming Tennis Matches"
+          data={matches}
+          columns={columns}
+        />
+      );
     else return <></>;
   };
 
@@ -162,7 +203,9 @@ export default function LiveMatches() {
             <Tab
               value={0}
               label={
-                <span style={{ color: activeTabSport === 0 ? "#896cef" : "#fff" }}>
+                <span
+                  style={{ color: activeTabSport === 0 ? "#896cef" : "#fff" }}
+                >
                   Cricket
                 </span>
               }
@@ -170,7 +213,9 @@ export default function LiveMatches() {
             <Tab
               value={1}
               label={
-                <span style={{ color: activeTabSport === 1 ? "#896cef" : "#fff" }}>
+                <span
+                  style={{ color: activeTabSport === 1 ? "#896cef" : "#fff" }}
+                >
                   Soccer
                 </span>
               }
@@ -178,7 +223,9 @@ export default function LiveMatches() {
             <Tab
               value={2}
               label={
-                <span style={{ color: activeTabSport === 2 ? "#896cef" : "#fff" }}>
+                <span
+                  style={{ color: activeTabSport === 2 ? "#896cef" : "#fff" }}
+                >
                   Tennis
                 </span>
               }
