@@ -246,7 +246,7 @@ export default function LiveReport() {
                     <td style={{ width: "60px" }}>
                       {item?.ex?.availableToLay[0]?.price}
                     </td>
-                    <td>{oddsPositionArr[item.runner]}</td>
+                    <td>{liveMatchPosition?.odds[item.runner]}</td>
                   </tr>
                 );
               })}
@@ -314,7 +314,7 @@ export default function LiveReport() {
                         </td>
                       </>
                     )}
-                    <td></td>
+                    <td>{liveMatchPosition?.bookmaker[item.runner]}</td>
                   </tr>
                 );
               })}
