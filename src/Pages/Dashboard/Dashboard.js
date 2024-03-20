@@ -21,11 +21,15 @@ export default function Dashboard() {
     <div>
       <div>
         <h5 style={{ color: "white" }}>Welcome,</h5>
-        <h1 style={{ color: "white" }}>Username</h1>
+        <h1 style={{ color: "white" }}>{localStorage.getItem("userName")}</h1>
       </div>
       <div>
-        <p style={{ color: "#BCBCBF" }}>User Information</p>
-        <div style={{ backgroundColor: "#2B2D3A", borderRadius: "15px" }}>
+        {/* <p style={{ color: "#BCBCBF" }}>User Information</p> */}
+        {/* <div>
+          <h4>Welcome to,</h4>
+          <h1>Flybet9</h1>
+        </div> */}
+        {/* <div style={{ backgroundColor: "#2B2D3A", borderRadius: "15px" }}>
           <div
             style={{
               padding: "20px",
@@ -34,6 +38,7 @@ export default function Dashboard() {
               flexWrap: "wrap",
             }}
           >
+            
             <InfoBox title={"Level"} value={"Super Stockist"} />
             <InfoBox title={"Level"} value={"Super Stockist"} />
             <InfoBox title={"Level"} value={"Super Stockist"} />
@@ -42,7 +47,7 @@ export default function Dashboard() {
             <InfoBox title={"Level"} value={"Super Stockist"} />
             <InfoBox title={"Level"} value={"Super Stockist"} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

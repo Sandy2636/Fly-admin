@@ -22,10 +22,11 @@ import { FaAddressBook } from "react-icons/fa";
 import { MdOutlineSettings } from "react-icons/md";
 import { FaGamepad } from "react-icons/fa";
 
-function Sidebar({ display }) {
+function Sidebar({ display , handleOpenClose }) {
   const navigate = useNavigate();
   const handleListItemClick = (path) => {
     navigate(path);
+    handleOpenClose();
   };
   const userRole = localStorage.getItem('user_type')
   const SidebarOptionList = [

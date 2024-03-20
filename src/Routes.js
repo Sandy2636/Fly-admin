@@ -150,6 +150,18 @@ const PrivateRoutes = () => {
           path="/live-matches/reports/:match_id/sessionbet-slip"
           element={<HomeLayout child={<SessionBetSlip/>} />}
         ></Route>
+         <Route
+          path="/completed-matches/reports/:match_id"
+          element={<HomeLayout child={<Reports/>} />}
+        ></Route>
+          <Route
+          path="/completed-matches/reports/:match_id/live-report"
+          element={<HomeLayout child={<LiveReport/>} />}
+        ></Route>
+        <Route
+          path="/completed-matches/reports/:match_id/sessionbet-slip"
+          element={<HomeLayout child={<SessionBetSlip/>} />}
+        ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     );

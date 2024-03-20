@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../../Components/Table/Table";
 import axios from "../../../authAxios";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 function InfoBox({ title, value }) {
   return (
@@ -23,12 +25,29 @@ export default function SessionBetSlip() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [sessionBetsData, setSessionBetsData] = useState([]);
-
+  const { match_id } = useParams();
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    
+    // Convert to IST timezone
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour12: true,
+      hour: 'numeric',
+      minute: 'numeric',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    };
+  
+    return date.toLocaleString('en-IN', options);
+  }
   const columns = [
-    { name: "DATE", selector: (row) => row.date },
+    { name: "DATE", selector: (row) => formatDate(row.date),width:"180px" },
     { name: "Fancy ID", selector: (row) => row.fancy_id },
     { name: "Username", selector: (row) => row.user_name },
-    { name: "Session Title", selector: (row) => row.session_title },
+    { name: "Session Title", selector: (row) => row.session_title ,width:'190px',wrap:"true" },
     { name: "RATE", selector: (row) => row.rate },
     { name: "RUNS", selector: (row) => row.runs },
     { name: "AMOUNT", selector: (row) => row.amount },
@@ -64,7 +83,7 @@ export default function SessionBetSlip() {
       const res = await axios.get("/analysis/getSessionBetSlips", {
         params: {
           user_id: localStorage.getItem("_id"),
-          match_id: "33112585",
+          match_id: match_id,
         },
       });
       if (res.data.status) {
@@ -82,14 +101,14 @@ export default function SessionBetSlip() {
   return (
     <div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        <InfoBox title={"Total Bets"} value={""} />
-        <InfoBox title={"Setted Bets"} value={""} />
-        <InfoBox title={"Unsettled Bets"} value={""} />
+        <InfoBox title={"Total Bets"} value={sessionBetsData.length} />
+        <InfoBox title={"Setted Bets"} value={sessionBetsData.filter(obj => obj.status !== "Pending").length} />
+        <InfoBox title={"Unsettled Bets"} value={sessionBetsData.filter(obj => obj.status === "Pending").length} />
         <InfoBox title={"Reverted Bets"} value={""} />
       </div>
       <div>
         <Table
-          data={columns}
+          data={sessionBetsData}
           columns={columns}
           title="Bet Slip"
           pagination

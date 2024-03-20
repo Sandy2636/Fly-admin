@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SwipeableDrawer, Tab, Tabs } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,useLocation  } from "react-router-dom";
 import { useRef } from "react";
 import "./LiveReport.scss";
 import axios from "../../../authAxios";
@@ -28,6 +28,8 @@ export default function LiveReport() {
   const [liveMatchPosition, setliveMatchPosition] = useState();
   const [Home, setHome] = useState("");
   const [Away, setAway] = useState("");
+  const location = useLocation();
+
 
   const getMatchBets = async () => {
     try {
@@ -150,7 +152,8 @@ export default function LiveReport() {
         console.log(err);
       }
     };
-    getMarketList();
+   
+    {location.pathname.split("/")[1]=="live-matches" && getMarketList()};
     const getOdds = async () => {
       try {
         const response = await axios.get("/t-p/getOdds", {
@@ -187,17 +190,22 @@ export default function LiveReport() {
         console.error("Error fetching data:", error);
       }
     };
-    let intervalIdBM = setInterval(getOdds, 10000);
-    let intervalIdOdds = setInterval(getBookMakerMarket, 10000);
+    if(location.pathname.split("/")[1]=="live-matches"){
+      let intervalIdBM = setInterval(getOdds, 10000);
+      let intervalIdOdds = setInterval(getBookMakerMarket, 10000);
 
-    return () => {
-      console.log("THIS WAS TRIGGERD < PAGE EXITED", {
-        intervalIdBM,
-        intervalIdOdds,
-      });
-      clearInterval(intervalIdBM);
-      clearInterval(intervalIdOdds);
-    };
+      return () => {
+        console.log("THIS WAS TRIGGERD < PAGE EXITED", {
+          intervalIdBM,
+          intervalIdOdds,
+        });
+        clearInterval(intervalIdBM);
+        clearInterval(intervalIdOdds);
+      };
+    }
+  
+
+   
   }, [match_id]);
 
   const oddsTable = () => {

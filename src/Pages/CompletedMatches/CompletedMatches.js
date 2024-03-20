@@ -6,6 +6,7 @@ import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { SlCalender } from "react-icons/sl";
+import { useNavigate, useParams,Link } from "react-router-dom";
 import { MdOutlineClear } from "react-icons/md";
 export default function CompletedMatches() {
   const [activeTab, setActiveTab] = useState(1);
@@ -58,7 +59,15 @@ export default function CompletedMatches() {
     },
     {
       name: "Title",
-      selector: (row) => row.matchObj.name,
+      selector: (row) => (
+        <Link
+          to={`/completed-matches/reports/${row.matchObj.id}`}
+          style={{ color: "#4be14b", }}
+        >
+          {row.matchObj.name}
+        </Link>
+      ),
+      wrap:"true"
     },
     {
       name: "Date",

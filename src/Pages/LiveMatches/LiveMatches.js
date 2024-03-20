@@ -11,7 +11,7 @@ export default function LiveMatches() {
   const params = useParams();
   const navigate = useNavigate();
   const [matches, setMatches] = useState([]);
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const [activeTabSport, setActiveTabSport] = useState(0);
   const [sports_id, setSports_id] = useState(4);
 
@@ -50,7 +50,24 @@ export default function LiveMatches() {
       console.log(err);
     }
   };
+  function formatDateAndTime(date) {
+    // Convert UTC to IST
+    const istDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 
+    // Format the date
+    const options = { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    };
+
+    // Return formatted date and time
+    return istDate.toLocaleDateString('en-US', options);
+}
   const columns = [
     {
       name: "ID",
@@ -62,15 +79,16 @@ export default function LiveMatches() {
       selector: (row) => (
         <Link
           to={`/live-matches/reports/${row.matchObj.id}`}
-          style={{ color: "blue", }}
+          style={{ color: "#4be14b", }}
         >
           {row.matchObj.name}
         </Link>
       ),
+      wrap:"true"
     },
     {
       name: "Date",
-      selector: (row) => row.matchObj.openDate,
+      selector: (row) =>formatDateAndTime(row.matchObj.openDate)  ,
     },
     {
       name: "Profit/ Loss",

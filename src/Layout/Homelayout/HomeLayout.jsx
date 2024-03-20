@@ -7,7 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { IoMdOpen } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import "./homeLayout.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { IconButton, SwipeableDrawer } from "@mui/material";
@@ -30,10 +30,13 @@ function HomeLayout(props) {
     localStorage.clear();
     navigate("/login")
   }
-
+  
+  const handleOpenClose = ()=>{
+    setOpen(false);
+  }
   return (
     <div className="homeLayoutContainer">
-      <Sidebar />
+      <Sidebar handleOpenClose = {handleOpenClose} />
       <SwipeableDrawer open={open} onClose={() => setOpen(false)}>
         <div
           style={{
@@ -43,7 +46,7 @@ function HomeLayout(props) {
             minWidth: "250px",
           }}
         >
-          <Sidebar display={true} />
+          <Sidebar handleOpenClose = {handleOpenClose} display={true} />
         </div>
       </SwipeableDrawer>
 
@@ -62,7 +65,7 @@ function HomeLayout(props) {
             </div>
           </div>
           <div className="nav_options">
-            <button className="navlink" style={{backgroundColor:"#8D8D8D", color:'white',border:'none',borderRadius:"7px",marginRight:'15px'}}>flybet9.com <IoMdOpen/> </button>
+            <Link to={"https://flybet9.com"} className="navlink" style={{backgroundColor:"#8D8D8D", color:'white',border:'none',borderRadius:"7px",marginRight:'15px'}}>flybet9.com <IoMdOpen/> </Link>
             <button className="navlink" style={{backgroundColor:"#735cff",color:"white",border:'none',borderRadius:"7px"}} onClick={signOut}>Sign out <MdLogout/></button>
           </div>
         </div>
