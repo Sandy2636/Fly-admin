@@ -21,6 +21,7 @@ import { RiBillFill } from "react-icons/ri";
 import { FaAddressBook } from "react-icons/fa";
 import { MdOutlineSettings } from "react-icons/md";
 import { FaGamepad } from "react-icons/fa";
+import { ImProfile } from "react-icons/im";
 
 function Sidebar({ display , handleOpenClose }) {
   const navigate = useNavigate();
@@ -149,6 +150,11 @@ function Sidebar({ display , handleOpenClose }) {
       title: "Setting",
       isExpandable: true,
       options: [
+        {
+          title: "Profile",
+          path: "/profile",
+          icon: <ImProfile />,
+        },
         {
           title: "Block Sports",
           path: "/block-sports",

@@ -31,6 +31,7 @@ import ChangeUserPassword from "./Pages/ChangeUserPassword/ChangeUserPassword";
 import Reports from "./Pages/Reports/Reports";
 import LiveReport from "./Pages/Reports/LiveReport/LiveReport";
 import SessionBetSlip from "./Pages/Reports/SessionBetSlip/SessionBetSlip";
+import Home from "./Pages/Home/Home";
 
 function AppRoutes() {
   const navigate = useNavigate();
@@ -47,7 +48,8 @@ const PrivateRoutes = () => {
   if (Cookies.get("jwtToken") && localStorage.getItem("isUserLoggedIn")) {
     return (
       <Routes>
-        <Route path="/" element={<HomeLayout child={<Dashboard />} />}></Route>
+        <Route path="/" element={<HomeLayout child={<Home />} />}></Route>
+        <Route path="/profile" element={<HomeLayout child={<Dashboard />} />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route
           path="/manage/super-admin"

@@ -24,12 +24,12 @@ export default function Dashboard() {
         <h1 style={{ color: "white" }}>{localStorage.getItem("userName")}</h1>
       </div>
       <div>
-        {/* <p style={{ color: "#BCBCBF" }}>User Information</p> */}
+        <p style={{ color: "#BCBCBF" }}>User Information</p>
         {/* <div>
           <h4>Welcome to,</h4>
           <h1>Flybet9</h1>
         </div> */}
-        {/* <div style={{ backgroundColor: "#2B2D3A", borderRadius: "15px" }}>
+        <div style={{ backgroundColor: "#2B2D3A", borderRadius: "15px" }}>
           <div
             style={{
               padding: "20px",
@@ -47,7 +47,7 @@ export default function Dashboard() {
             <InfoBox title={"Level"} value={"Super Stockist"} />
             <InfoBox title={"Level"} value={"Super Stockist"} />
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
