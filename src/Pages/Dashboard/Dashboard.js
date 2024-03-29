@@ -1,5 +1,7 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
+import axios from "../../authAxios";
 function InfoBox({ title, value }) {
+  
   return (
     <div
       style={{
@@ -17,6 +19,27 @@ function InfoBox({ title, value }) {
   );
 }
 export default function Dashboard() {
+
+  const [userData, setUserData] = useState()
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    try {
+      const response = await axios.get("/users/get-user", {
+        params: { username: localStorage.getItem("userName") }
+      });
+      setUserData(response.data.user);
+      console.log(response.data.user)
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  const getDate = (odate)=>{
+      let str = odate.createdAt;
+      return str.slice(0,10);
+  }
   return (
     <div>
       <div>
@@ -39,13 +62,14 @@ export default function Dashboard() {
             }}
           >
             
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
-            <InfoBox title={"Level"} value={"Super Stockist"} />
+            <InfoBox title={"My Username"} value={userData?.username} />
+            <InfoBox title={"My Level"} value={userData?.user_type} />
+            <InfoBox title={"MY FIX LIMIT"} value={userData?.credits} />
+            <InfoBox title={"Created At"} value={getDate(userData)} />
+            <InfoBox title={"Maximum My Share"} value={userData?.my_match_share} />
+            <InfoBox title={"Minimum Company Share"} value={userData?.other_match_share} />
+            <InfoBox title={"Match Commission"} value={userData?.match_commission} />
+            <InfoBox title={"Session Commission"} value={userData?.session_commission} />
           </div>
         </div>
       </div>
