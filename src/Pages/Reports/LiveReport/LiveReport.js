@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SwipeableDrawer, Tab, Tabs } from "@mui/material";
-import { useNavigate, useParams,useLocation  } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useRef } from "react";
 import "./LiveReport.scss";
 import axios from "../../../authAxios";
@@ -29,7 +29,6 @@ export default function LiveReport() {
   const [Home, setHome] = useState("");
   const [Away, setAway] = useState("");
   const location = useLocation();
-
 
   const getMatchBets = async () => {
     try {
@@ -152,8 +151,10 @@ export default function LiveReport() {
         console.log(err);
       }
     };
-   
-    {location.pathname.split("/")[1]=="live-matches" && getMarketList()};
+
+    {
+      location.pathname.split("/")[1] == "live-matches" && getMarketList();
+    }
     const getOdds = async () => {
       try {
         const response = await axios.get("/t-p/getOdds", {
@@ -190,7 +191,7 @@ export default function LiveReport() {
         console.error("Error fetching data:", error);
       }
     };
-    if(location.pathname.split("/")[1]=="live-matches"){
+    if (location.pathname.split("/")[1] == "live-matches") {
       let intervalIdBM = setInterval(getOdds, 10000);
       let intervalIdOdds = setInterval(getBookMakerMarket, 10000);
 
@@ -203,9 +204,6 @@ export default function LiveReport() {
         clearInterval(intervalIdOdds);
       };
     }
-  
-
-   
   }, [match_id]);
 
   const oddsTable = () => {
@@ -246,7 +244,11 @@ export default function LiveReport() {
                     <td style={{ width: "60px" }}>
                       {item?.ex?.availableToLay[0]?.price}
                     </td>
-                    <td>{liveMatchPosition?.odds[item.runner]}</td>
+                    <td>
+                      {parseFloat(
+                        liveMatchPosition?.odds[item.runner || item.runnerName]
+                      ).toFixed(2)}
+                    </td>
                   </tr>
                 );
               })}
@@ -258,12 +260,10 @@ export default function LiveReport() {
   };
 
   const bookMakerTable = () => {
+    const bookMakerRates = bookMaker.find(
+      (item) => item.marketName === "Bookmaker"
+    );
     return (
-      bookMaker.sort(function (a, b) {
-        if (a.marketName === "bookmaker") return -1;
-        if (b.marketName === "bookmaker") return 1;
-      }) || []
-    )?.map((bookMakerObj) => (
       <>
         <div
           className="betting"
@@ -285,7 +285,7 @@ export default function LiveReport() {
             </thead>
             <tbody>
               {(
-                bookMakerObj.runners.sort(
+                bookMakerRates?.runners.sort(
                   (a, b) => a.sortPriority - b.sortPriority
                 ) || []
               ).map((item, index) => {
@@ -314,7 +314,13 @@ export default function LiveReport() {
                         </td>
                       </>
                     )}
-                    <td>{liveMatchPosition?.bookmaker[item.runner]}</td>
+                    <td>
+                      {parseFloat(
+                        liveMatchPosition?.bookmaker[
+                          item.runner || item.runnerName
+                        ]
+                      ).toFixed(2)}
+                    </td>
                   </tr>
                 );
               })}
@@ -322,7 +328,7 @@ export default function LiveReport() {
           </table>
         </div>
       </>
-    ));
+    );
   };
 
   const diamandFancyTable = () => {
