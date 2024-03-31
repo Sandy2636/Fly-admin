@@ -83,8 +83,8 @@ const Admin = () => {
     { name: "UserName", selector: (row) => row.username },
     { name: "Name", selector: (row) => row.first_name },
     { name: "FixLimit", selector: (row) => row.fix_limit },
-    { name: "MyShare", selector: (row) => row.my_share },
-    { name: "MaxShare", selector: (row) => row.max_share },
+    { name: "MyShare", selector: (row) => row.other_match_share },
+    { name: "MaxShare", selector: (row) => row.my_match_share },
     { name: "Exposure", selector: (row) => row.exposure },
     {
       name: "Actions",

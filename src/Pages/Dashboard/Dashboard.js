@@ -36,10 +36,10 @@ export default function Dashboard() {
       console.error('Error fetching user data:', error);
     }
   };
-  const getDate = (odate)=>{
-      let str = odate.createdAt;
-      return str.slice(0,10);
-  }
+  // const getDate = (odate)=>{
+  //     let str = odate?.createdAt;
+  //     return str.slice(0,10);
+  // }
   return (
     <div>
       <div>
@@ -65,7 +65,7 @@ export default function Dashboard() {
             <InfoBox title={"My Username"} value={userData?.username} />
             <InfoBox title={"My Level"} value={userData?.user_type} />
             <InfoBox title={"MY FIX LIMIT"} value={userData?.credits} />
-            <InfoBox title={"Created At"} value={getDate(userData)} />
+            {/* <InfoBox title={"Created At"} value={getDate(userData)} /> */}
             <InfoBox title={"Maximum My Share"} value={userData?.my_match_share} />
             <InfoBox title={"Minimum Company Share"} value={userData?.other_match_share} />
             <InfoBox title={"Match Commission"} value={userData?.match_commission} />
