@@ -31,7 +31,7 @@ const User = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get("/users/get-users", {
-          params: { user_type: "user",user_id:localStorage.getItem('_id') },
+          params: { user_type: "user", user_id: localStorage.getItem("_id") },
         });
         setdata(result.data.data);
         setColData(result.data.data);
@@ -70,7 +70,7 @@ const User = () => {
 
     return (
       <input
-        style={{ outline: "none" }}
+        style={{ outline: "none", maxWidth: "100%" }}
         placeholder="Search Here"
         onChange={(e) => setFilterText(e.target.value)}
         filterText={filterText}
@@ -89,11 +89,17 @@ const User = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div style={{ display: 'flex', justifyContent: "space-between" }}>
-          <div style={{ margin: "0px 4px" }} onClick={() => editBtnClick(row.username, row)}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{ margin: "0px 4px" }}
+            onClick={() => editBtnClick(row.username, row)}
+          >
             <FaUserEdit size={18} />
           </div>
-          <div style={{ margin: "0px 4px" }} onClick={() => changePassBtnClick(row.username, row)}>
+          <div
+            style={{ margin: "0px 4px" }}
+            onClick={() => changePassBtnClick(row.username, row)}
+          >
             <TbPasswordUser size={18} />
           </div>
         </div>
